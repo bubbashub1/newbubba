@@ -304,3 +304,37 @@
     border-radius: 15px;
   }
 }
+
+
+/* Quick links beside More Filters */
+.directory-quick-links {
+  margin-top: 10px;
+}
+
+.directory-quick-link-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.directory-quick-link {
+  min-height: 44px;
+  padding: 0 14px;
+  gap: 8px;
+  border-radius: 13px;
+}
+
+.directory-quick-link small {
+  display: none;
+}
+
+.directory-quick-icon {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .directory-quick-link-grid {
+    gap: 8px;
+  }
+}
