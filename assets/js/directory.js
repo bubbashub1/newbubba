@@ -75,7 +75,8 @@
   form?.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const url = new URL("directory.html", document.baseURI);
+    const currentPage = window.location.pathname.split("/").pop() || "directory.html";
+    const url = new URL(currentPage, document.baseURI);
     const mainForm = document.getElementById("directoryHeroSearch");
 
     if (mainForm) {
