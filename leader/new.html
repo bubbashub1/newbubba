@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Activity | Bubba Hub</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script src="../assets/js/app.js" defer></script>
+<script src="../assets/js/leader-new.js" defer></script>
+</head>
+<body data-page="leader">
+<div id="site-header"></div>
+<main>
+<section class="hero"><div class="container"><h1>Add an activity</h1><p>Create a family activity and publish it to the Bubba Hub directory.</p></div></section>
+
+<section class="page-section">
+<div class="container">
+<form id="activityForm" class="card activity-form" novalidate>
+
+<h2>Basics</h2>
+<div class="form-grid">
+<div class="form-field form-field-wide"><label for="title">Activity name</label><input id="title" name="title" required placeholder="e.g. Baby Massage"></div>
+<div class="form-field form-field-wide"><label for="description">Description</label><textarea id="description" name="description" rows="6" placeholder="Tell families about the activity"></textarea></div>
+<div class="form-field"><label for="leader_id">Class leader</label><select id="leader_id" name="leader_id" required><option value="">Loading leaders…</option></select></div>
+<div class="form-field"><label for="category_id">Category</label><select id="category_id" name="category_id" required><option value="">Loading categories…</option></select></div>
+</div>
+
+<h2>Age &amp; price</h2>
+<div class="form-grid">
+<div class="form-field"><label for="age_min_months">Minimum age (months)</label><input type="number" id="age_min_months" name="age_min_months" min="0" placeholder="0"></div>
+<div class="form-field"><label for="age_max_months">Maximum age (months)</label><input type="number" id="age_max_months" name="age_max_months" min="0" placeholder="60"></div>
+<div class="form-field"><label for="price">Price</label><input type="number" id="price" name="price" min="0" step="0.01" placeholder="0"></div>
+<div class="form-field"><label for="price_type">Price type</label><select id="price_type" name="price_type"><option value="per session">Per session</option><option value="per family">Per family</option></select></div>
+<div class="form-field"><label for="session_length_minutes">Session length (minutes)</label><input type="number" id="session_length_minutes" name="session_length_minutes" min="1" placeholder="60"></div>
+</div>
+
+<h2>Venue</h2>
+<div class="form-grid">
+<div class="form-field"><label for="venue_name">Venue name</label><input id="venue_name" name="venue_name" required placeholder="e.g. Acorn Centre"></div>
+<div class="form-field"><label for="town">Town</label><input id="town" name="town" required placeholder="e.g. Torquay"></div>
+<div class="form-field"><label for="region">Region</label><select id="region" name="region"><option value="">Select region</option><option>Torbay</option><option>Teignbridge</option><option>South Hams</option><option>Exeter</option><option>East Devon</option><option>North Devon</option><option>Mid Devon</option><option>West Devon</option><option>East Cornwall</option><option>Mid Cornwall</option><option>North Cornwall</option><option>South Cornwall</option><option>West Cornwall</option><option>Plymouth</option></select></div>
+<div class="form-field"><label for="postcode">Postcode</label><input id="postcode" name="postcode" placeholder="e.g. TQ1 1AA"></div>
+</div>
+
+<h2>Schedule</h2>
+<div class="form-grid">
+<div class="form-field"><label for="day_of_week">Day</label><select id="day_of_week" name="day_of_week"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select></div>
+<div class="form-field"><label for="start_time">Start time</label><input type="time" id="start_time" name="start_time"></div>
+<div class="form-field"><label for="end_time">End time</label><input type="time" id="end_time" name="end_time"></div>
+</div>
+
+<h2>Booking</h2>
+<div class="form-grid">
+<label class="check-row"><input type="checkbox" name="booking_required" value="1"> Booking required</label>
+<div class="form-field form-field-wide"><label for="booking_url">Booking or information link</label><input type="url" id="booking_url" name="booking_url" placeholder="https://"></div>
+<label class="check-row"><input type="checkbox" name="term_time_only" value="1"> Term-time only</label>
+</div>
+
+<div id="activityFormMessage" class="form-message" aria-live="polite"></div>
+<div class="form-actions"><a class="button button-secondary" href="../leader.html">Cancel</a><button class="button" type="submit">Publish activity</button></div>
+</form>
+</div>
+</section>
+</main>
+<div id="site-footer"></div>
+</body>
+</html>
