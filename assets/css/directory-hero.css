@@ -494,6 +494,34 @@
 }
 
 @media (max-width: 600px) {
+  .directory-hero-row-actions .directory-hero-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: auto !important;
+    gap: 9px;
+    align-items: stretch;
+  }
+
+  .directory-hero-row-actions .directory-hero-actions > * {
+    min-height: 50px;
+    padding: 0 10px;
+    font-size: 13px;
+    line-height: 1.2;
+    white-space: normal;
+  }
+
+  .directory-hero-row-actions .directory-hero-actions > :last-child {
+    grid-column: 1 / -1;
+  }
+
+  .directory-quick-link {
+    min-height: 50px;
+  }
+
+  .directory-search-button,
+  .directory-more-filters {
+    min-height: 50px;
+  }
+
   .directory-hero-row-fields .directory-hero-main-fields {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto !important;
