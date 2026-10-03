@@ -11,6 +11,7 @@ $day=strtolower(trim((string)($_GET['day']??'')));
 $price=trim((string)($_GET['price']??''));
 $booking=isset($_GET['booking_required'])?(int)$_GET['booking_required']:null;
 $id=(int)($_GET['id']??0);
+$slug=trim((string)($_GET['slug']??''));
 $params=[];
 
 $sql="SELECT DISTINCT a.id,a.title,a.slug,a.description,a.status,a.booking_required,a.booking_url,a.price,a.price_type,a.currency,a.age_min_months,a.age_max_months,a.session_length_minutes,a.term_time_only,a.contact_email,a.contact_phone,a.website,a.featured,l.id AS leader_id,l.business_name AS organiser,v.id AS venue_id,v.name AS venue_name,v.town,v.region,v.postcode,v.latitude,v.longitude
@@ -21,6 +22,7 @@ LEFT JOIN ".bh_table('venues')." v ON v.id=av.venue_id
 WHERE 1=1";
 
 if($id>0){ $sql.=" AND a.id=%d"; $params[]=$id; }
+if($slug!==''){ $sql.=" AND a.slug=%s"; $params[]=$slug; }
 if($keyword!==''){ $like='%'.$wpdb->esc_like($keyword).'%'; $sql.=" AND (a.title LIKE %s OR a.description LIKE %s OR l.business_name LIKE %s)"; array_push($params,$like,$like,$like); }
 if($region!==''){ $sql.=" AND v.region=%s"; $params[]=$region; }
 if($town!==''){ $sql.=" AND v.town=%s"; $params[]=$town; }
@@ -46,9 +48,9 @@ $query=$params?$wpdb->prepare($sql,...$params):$sql;
 $rows=$wpdb->get_results($query,ARRAY_A);
 
 if($wpdb->last_error) bh_json(['success'=>false,'error'=>'Database query failed.'],500);
-if($id>0 && !$rows) bh_json(['success'=>false,'error'=>'Activity not found.'],404);
+if(($id>0 || $slug!=='') && !$rows) bh_json(['success'=>false,'error'=>'Activity not found.'],404);
 
-if($id>0 && $rows){
+if(($id>0 || $slug!=='') && $rows){
     $activityId=(int)$rows[0]['id'];
 
     $categories=$wpdb->get_results($wpdb->prepare(
