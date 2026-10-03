@@ -12,7 +12,7 @@
     ["account", "My Account", "account.html"]
   ];
 
-  const logoPath = "images/logos/gemini_generated_image_pq5i56pq5i56pq5i-removebg-preview-20260930-190428-b9e652.png";
+  const logoPath = "/images/logos/gemini_generated_image_pq5i56pq5i56pq5i-removebg-preview-20260930-190428-b9e652.png";
 
   function renderHeader() {
     const target = document.getElementById("site-header");
@@ -22,7 +22,7 @@
       <header class="site-header">
         <div class="container header-inner">
 
-          <a class="brand" href="index.html" aria-label="Bubba Hub home">
+          <a class="brand" href="/" aria-label="Bubba Hub home">
             <span class="brand-logo-wrap">
               <img class="brand-logo" src="${logoPath}" alt="Bubba Hub logo">
               <span class="brand-fallback">BH</span>
@@ -53,7 +53,7 @@
               </button>
 
               <div class="header-search" id="header-search" hidden>
-                <form action="directory.html" method="get">
+                <form action="/directory.html" method="get">
 
                   <div class="header-search-fields">
 
@@ -100,7 +100,7 @@
 
                     <div class="header-search-actions">
                       <button class="button" type="submit">Search</button>
-                      <a class="button button-secondary" href="directory.html">View all activities</a>
+                      <a class="button button-secondary" href="/directory.html">View all activities</a>
                     </div>
 
                   </div>
@@ -109,10 +109,10 @@
               </div>
             </div>
 
-            <a href="my-hub.html" data-nav="my-hub">My Hub</a>
-            <a href="help-support.html" data-nav="help-support">Support &amp; Guidance</a>
-            <a href="leader.html" data-nav="leader">Class Leaders</a>
-            <a href="account.html" data-nav="account">My Account</a>
+            <a href="/my-hub.html" data-nav="my-hub">My Hub</a>
+            <a href="/help-support.html" data-nav="help-support">Support &amp; Guidance</a>
+            <a href="/leader.html" data-nav="leader">Class Leaders</a>
+            <a href="/account.html" data-nav="account">My Account</a>
 
           </nav>
         </div>
@@ -186,17 +186,17 @@
         <div class="container footer-grid">
 
           <div>
-            <a class="footer-brand" href="index.html">Bubba Hub</a>
+            <a class="footer-brand" href="/">Bubba Hub</a>
             <p>Your family hub for finding, planning and booking family activities.</p>
           </div>
 
           <div>
             <h2>Main menu</h2>
-            <a href="directory.html">Find activities</a>
-            <a href="my-hub.html">My Hub</a>
-            <a href="help-support.html">Support &amp; Guidance</a>
-            <a href="leader.html">Class Leaders</a>
-            <a href="account.html">My Account</a>
+            <a href="/directory.html">Find activities</a>
+            <a href="/my-hub.html">My Hub</a>
+            <a href="/help-support.html">Support &amp; Guidance</a>
+            <a href="/leader.html">Class Leaders</a>
+            <a href="/account.html">My Account</a>
           </div>
 
           <div>
