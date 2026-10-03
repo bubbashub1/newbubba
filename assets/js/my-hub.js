@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const name=document.getElementById("hubHeroName");if(name){name.textContent="there";}});
