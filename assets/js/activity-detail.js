@@ -36,7 +36,7 @@
     return;
   }
 
-  fetch("api/activities.php?slug=" + encodeURIComponent(slug), {
+  fetch("/api/activities.php?slug=" + encodeURIComponent(slug), {
     headers: { Accept: "application/json" }
   })
     .then(async (response) => {
