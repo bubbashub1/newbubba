@@ -26,6 +26,7 @@ function make_slug(string $title): string {
 $title=post_string('title');
 $description=post_string('description');
 $leaderId=post_int_or_null('leader_id');
+if($leaderId !== null && $leaderId <= 0) $leaderId = null;
 $categoryId=post_int_or_null('category_id');
 $venueName=post_string('venue_name');
 $town=post_string('town');
