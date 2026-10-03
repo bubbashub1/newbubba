@@ -471,3 +471,81 @@ p { margin: 0 0 14px; }
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ================================================================
+   DIRECTORY ACTIVITIES
+   ================================================================ */
+
+.directory-activity-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.directory-activity-card {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(18, 63, 49, .05);
+}
+
+.directory-activity-card-image {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  background: var(--green-light);
+  font-size: 42px;
+}
+
+.directory-activity-card-body {
+  padding: 16px;
+}
+
+.directory-activity-card-body h3 {
+  margin: 4px 0 5px;
+  color: var(--green-dark);
+}
+
+.directory-activity-card-body p {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.directory-activity-tag {
+  color: var(--teal);
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.directory-activity-meta {
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.directory-activity-card .button {
+  margin-top: 4px;
+  min-height: 38px;
+  padding: 7px 13px;
+  font-size: .85rem;
+}
+
+@media (max-width: 600px) {
+  .directory-activity-card {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .directory-activity-card-image {
+    min-height: 140px;
+    font-size: 32px;
+  }
+
+  .directory-activity-card-body {
+    padding: 13px;
+  }
+}
