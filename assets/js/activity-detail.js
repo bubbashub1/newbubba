@@ -9,6 +9,8 @@
   const venue = document.querySelector("[data-activity-venue]");
   const facts = document.querySelector("[data-activity-facts]");
   const contact = document.querySelector("[data-activity-contact]");
+  const saveButton = document.getElementById("saveActivity");
+  let csrf = "";
   const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
   const esc = (value) => String(value ?? "")
@@ -35,6 +37,10 @@
     if (title) title.textContent = "Activity not found";
     return;
   }
+
+  fetch("/api/favourites.php", { headers: { Accept: "application/json" } })
+    .then(async (response) => { const data = await response.json(); if (response.status === 401) return null; if (!response.ok || !data.success) throw new Error(data.error || "Could not load saved state."); csrf = data.csrf || ""; const saved = Array.isArray(data.activities) && data.activities.some(item => String(item.slug) === String(slug)); if (saveButton) { saveButton.dataset.saved = saved ? "1" : "0"; saveButton.textContent = saved ? "♥ Saved" : "♡ Save activity"; } return saved; })
+    .catch(() => null);
 
   fetch("/api/activities.php?slug=" + encodeURIComponent(slug), {
     headers: { Accept: "application/json" }
@@ -122,3 +128,5 @@
       if (about) about.innerHTML = "<p>We couldn't load this activity.</p>";
     });
 })();
+
+  saveButton?.addEventListener("click", async () => { if (!csrf) { window.location.href = "account.html"; return; } const saved = saveButton.dataset.saved === "1"; const response = await fetch("/api/favourites.php", { method:"POST", headers:{"Content-Type":"application/json",Accept:"application/json"}, body:JSON.stringify({activity_id:window.__activityId,saved:!saved,csrf}) }); const data=await response.json(); if(!response.ok||!data.success){saveButton.textContent=data.message||data.error||"Could not save";return;} saveButton.dataset.saved=data.saved?"1":"0"; saveButton.textContent=data.saved?"♥ Saved":"♡ Save activity"; });
