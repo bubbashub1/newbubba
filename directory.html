@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find activities | Bubba Hub</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<script src="assets/js/app.js" defer></script>
+</head>
+<body data-page="directory">
+<div id="site-header"></div>
+<main>
+<section class="page-heading"><div class="container"><h1>Find activities</h1><p>Search for family activities, groups, classes and services.</p></div></section>
+<section class="page-section"><div class="container">
+<form class="search-panel" action="directory.html" method="get">
+<div class="form-grid">
+<div class="field"><label for="keyword">Keyword</label><input id="keyword" name="keyword" type="search" placeholder="Activity, group or class"></div>
+<div class="field"><label for="region">Region</label><select id="region" name="region"><option value="">All regions</option><option>Torbay</option><option>Teignbridge</option><option>Exeter</option><option>South Devon</option><option>East Cornwall</option></select></div>
+<div class="field"><label for="town">Town</label><input id="town" name="town" type="text" placeholder="Town"></div>
+</div>
+<div class="form-actions"><button class="button" type="submit">Search</button><button class="button button-secondary" type="button">More filters</button></div>
+</form>
+</div></section>
+<section class="page-section"><div class="container">
+<div class="directory-layout">
+<div class="directory-results"><h2>Activities</h2><div class="empty-state">Activity results will be connected here during the functionality phase.</div></div>
+<div class="directory-map"><h2>Map</h2><div class="empty-state">The interactive map will be connected here later.</div></div>
+</div>
+</div></section>
+</main>
+<div id="site-footer"></div>
+</body>
+</html>
