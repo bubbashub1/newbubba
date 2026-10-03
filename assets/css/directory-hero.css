@@ -146,28 +146,29 @@
 }
 
 /* ================================================================
-   HERO ACTIONS
-   Desktop: Search + More Filters + Calendar + Map + Activities
-   are ALWAYS five columns on one row.
+   ROW 2 — Search | More filters | Calendar | Map | Activities
    ================================================================ */
 
 .directory-hero-actions {
   display: grid !important;
   grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-  grid-auto-flow: column;
-  align-items: stretch;
+  grid-template-rows: minmax(44px, auto) !important;
+  grid-auto-flow: column !important;
   gap: 10px;
+  align-items: stretch;
   width: 100%;
   margin-top: 14px;
-  padding: 10px;
+  padding: 0;
   box-sizing: border-box;
-  border: 1px solid rgba(20, 68, 0, .10);
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(18, 63, 49, .04);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .directory-hero-actions > * {
+  grid-row: 1 !important;
+  grid-column: auto !important;
   width: 100% !important;
   min-width: 0 !important;
   max-width: none !important;
@@ -178,7 +179,7 @@
 .directory-more-filters,
 .directory-quick-link {
   width: 100% !important;
-  min-width: 0;
+  min-width: 0 !important;
   min-height: 44px;
   box-sizing: border-box;
 }
@@ -383,10 +384,8 @@
     grid-column: 1 / -1;
   }
 
-  /* Keep all five hero actions together on desktop/tablet widths. */
   .directory-hero-actions {
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    grid-auto-flow: column;
   }
 
   .directory-advanced-grid,
