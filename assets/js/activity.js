@@ -15,7 +15,7 @@
 
   if(!id){ if(title) title.textContent="Activity not found"; return; }
 
-  fetch(`/api/activity.php?id=${encodeURIComponent(id)}`,{headers:{Accept:"application/json"}})
+  fetch(`/api/activities.php?id=${encodeURIComponent(id)}`,{headers:{Accept:"application/json"}})
     .then(async r=>{const d=await r.json();if(!r.ok||!d.success)throw new Error(d.error||"Activity could not be loaded.");return d.activity;})
     .then(a=>{
       document.title=`${a.title} | Bubba Hub`;
