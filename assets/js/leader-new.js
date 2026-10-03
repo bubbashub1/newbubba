@@ -46,7 +46,7 @@
     try{
       const response=await fetch("../api/activity-save.php",{method:"POST",body:new FormData(form),headers:{Accept:"application/json"}});
       const data=await response.json();
-      if(!response.ok || !data.success) throw new Error(data.error||"The activity could not be saved.");
+      if(!response.ok || !data.success) throw new Error(data.error||`The activity could not be saved (HTTP ${response.status}).`);
 
       message.textContent=data.message;
       message.className="form-message success";
