@@ -18,7 +18,7 @@
     const leaderSelect=document.getElementById("leader_id");
     const categorySelect=document.getElementById("category_id");
 
-    leaderSelect.innerHTML='<option value="">Select class leader</option>';
+    leaderSelect.innerHTML='<option value="">Unassigned — add leader later</option>';
     (leaders.leaders||[]).forEach(item=>{
       const option=document.createElement("option");
       option.value=item.id;
