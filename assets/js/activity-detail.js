@@ -61,6 +61,7 @@
       return activity;
     })
     .then((activity) => {
+      window.__activityId = Number(activity.id || 0);
       document.title = (activity.title || "Activity") + " | Bubba Hub";
 
       if (title) title.textContent = activity.title || "Activity";
