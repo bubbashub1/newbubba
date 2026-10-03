@@ -11,6 +11,7 @@ $day=strtolower(trim((string)($_GET['day']??'')));
 $price=trim((string)($_GET['price']??''));
 $booking=isset($_GET['booking_required'])?(int)$_GET['booking_required']:null;
 $id=(int)($_GET['id']??0);
+$params=[];
 
 $sql="SELECT DISTINCT a.id,a.title,a.slug,a.description,a.status,a.booking_required,a.booking_url,a.price,a.price_type,a.currency,a.age_min_months,a.age_max_months,a.session_length_minutes,a.term_time_only,a.contact_email,a.contact_phone,a.website,a.featured,l.id AS leader_id,l.business_name AS organiser,v.id AS venue_id,v.name AS venue_name,v.town,v.region,v.postcode,v.latitude,v.longitude
 FROM ".bh_table('activities')." a
@@ -18,9 +19,8 @@ LEFT JOIN ".bh_table('leaders')." l ON l.id=a.leader_id
 LEFT JOIN ".bh_table('activity_venues')." av ON av.activity_id=a.id AND av.is_primary=1
 LEFT JOIN ".bh_table('venues')." v ON v.id=av.venue_id
 WHERE 1=1";
-if($id>0){ $sql.=" AND a.id=%d"; $params[]=$id; }
-$params=[];
 
+if($id>0){ $sql.=" AND a.id=%d"; $params[]=$id; }
 if($keyword!==''){ $like='%'.$wpdb->esc_like($keyword).'%'; $sql.=" AND (a.title LIKE %s OR a.description LIKE %s OR l.business_name LIKE %s)"; array_push($params,$like,$like,$like); }
 if($region!==''){ $sql.=" AND v.region=%s"; $params[]=$region; }
 if($town!==''){ $sql.=" AND v.town=%s"; $params[]=$town; }
@@ -47,4 +47,28 @@ $rows=$wpdb->get_results($query,ARRAY_A);
 
 if($wpdb->last_error) bh_json(['success'=>false,'error'=>'Database query failed.'],500);
 if($id>0 && !$rows) bh_json(['success'=>false,'error'=>'Activity not found.'],404);
+
+if($id>0 && $rows){
+    $activityId=(int)$rows[0]['id'];
+
+    $categories=$wpdb->get_results($wpdb->prepare(
+        "SELECT c.id,c.name,c.slug
+         FROM ".bh_table('activity_categories')." ac
+         INNER JOIN ".bh_table('categories')." c ON c.id=ac.category_id
+         WHERE ac.activity_id=%d ORDER BY c.name ASC",
+        $activityId
+    ),ARRAY_A);
+
+    $schedules=$wpdb->get_results($wpdb->prepare(
+        "SELECT day_of_week,start_time,end_time,active
+         FROM ".bh_table('activity_schedules')."
+         WHERE activity_id=%d AND active=1
+         ORDER BY day_of_week,start_time",
+        $activityId
+    ),ARRAY_A);
+
+    $rows[0]['categories']=$categories ?: [];
+    $rows[0]['schedules']=$schedules ?: [];
+}
+
 bh_json(['success'=>true,'count'=>count($rows),'activities'=>$rows]);
