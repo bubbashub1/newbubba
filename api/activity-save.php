@@ -43,7 +43,6 @@ $startTime=post_string('start_time');
 $endTime=post_string('end_time');
 
 if($title==='') bh_json(['success'=>false,'error'=>'Please enter an activity name.'],422);
-if($leaderId===null) bh_json(['success'=>false,'error'=>'Please select a class leader.'],422);
 if($categoryId===null) bh_json(['success'=>false,'error'=>'Please select a category.'],422);
 if($venueName==='' || $town==='') bh_json(['success'=>false,'error'=>'Please enter the venue name and town.'],422);
 
@@ -58,9 +57,7 @@ $wpdb->query('START TRANSACTION');
 try {
     $slug=make_slug($title).'-'.time();
 
-    $ok=$wpdb->insert(
-        bh_table('activities'),
-        [
+    $activityData=[
             'title'=>$title,
             'slug'=>$slug,
             'description'=>$description,
@@ -76,9 +73,10 @@ try {
             'session_length_minutes'=>$sessionLength,
             'term_time_only'=>!empty($_POST['term_time_only']) ? 1 : 0,
             'featured'=>0
-        ],
-        ['%s','%s','%s','%s','%d','%d','%s','%f','%s','%s','%d','%d','%d','%d','%d']
-    );
+        ];
+    $activityFormats=['%s','%s','%s','%s','%d','%d','%s','%f','%s','%s','%d','%d','%d','%d','%d'];
+    if($leaderId===null){ $activityData['leader_id']=null; $activityFormats[4]='%d'; }
+    $ok=$wpdb->insert(bh_table('activities'),$activityData,$activityFormats);
     if(!$ok) throw new RuntimeException($wpdb->last_error ?: 'Could not save activity.');
 
     $activityId=(int)$wpdb->insert_id;
