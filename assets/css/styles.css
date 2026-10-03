@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+
 /* Bubba Hub / Newbury - Phase 1
    Simple functional CSS only. Styling can be refined later. */
 
@@ -15,26 +17,18 @@
   --radius: 8px;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   color: var(--text);
   background: var(--white);
-  font-family: Arial, sans-serif;
+  font-family: 'Quicksand', sans-serif;
   line-height: 1.5;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-a {
-  color: var(--green-dark);
-}
+img { max-width: 100%; height: auto; }
+a { color: var(--green-dark); }
 
 button,
 input,
@@ -48,40 +42,17 @@ textarea {
   margin: 0 auto;
 }
 
-main {
-  min-height: 60vh;
-}
+main { min-height: 60vh; }
 
-h1,
-h2,
-h3 {
-  line-height: 1.2;
-}
+h1, h2, h3 { line-height: 1.2; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 12px; }
+h2 { margin: 0 0 12px; }
+h3 { margin: 0 0 8px; }
+p { margin: 0 0 14px; }
 
-h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  margin: 0 0 12px;
-}
+.narrow { max-width: 760px; }
 
-h2 {
-  margin: 0 0 12px;
-}
-
-h3 {
-  margin: 0 0 8px;
-}
-
-p {
-  margin: 0 0 14px;
-}
-
-.narrow {
-  max-width: 760px;
-}
-
-.page-section {
-  padding: 40px 0;
-}
+.page-section { padding: 40px 0; }
 
 .page-heading,
 .hero,
@@ -130,13 +101,8 @@ p {
   object-fit: contain;
 }
 
-.brand-fallback {
-  display: none;
-}
-
-.brand-name {
-  display: none;
-}
+.brand-fallback { display: none; }
+.brand-name { display: none; }
 
 .main-navigation {
   display: flex;
@@ -177,9 +143,7 @@ p {
 
 /* Header search */
 
-.nav-search-wrap {
-  position: relative;
-}
+.nav-search-wrap { position: relative; }
 
 .nav-search-trigger {
   padding: 10px 12px;
@@ -211,9 +175,7 @@ p {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
-.header-search[hidden] {
-  display: none;
-}
+.header-search[hidden] { display: none; }
 
 .header-search-fields {
   display: grid;
@@ -268,9 +230,7 @@ p {
 }
 
 .button:hover,
-.button:focus-visible {
-  background: var(--green-dark);
-}
+.button:focus-visible { background: var(--green-dark); }
 
 .button-secondary {
   background: var(--white);
@@ -300,9 +260,7 @@ p {
   margin-bottom: 14px;
 }
 
-.field label {
-  font-weight: 700;
-}
+.field label { font-weight: 700; }
 
 .field input,
 .field select,
@@ -324,18 +282,9 @@ p {
 
 /* Grids & cards */
 
-.grid {
-  display: grid;
-  gap: 20px;
-}
-
-.grid-2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.grid-3 {
-  grid-template-columns: repeat(3, 1fr);
-}
+.grid { display: grid; gap: 20px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
 
 .card {
   padding: 22px;
@@ -349,9 +298,7 @@ p {
   text-decoration: none;
 }
 
-.card-link:hover .card {
-  border-color: var(--green);
-}
+.card-link:hover .card { border-color: var(--green); }
 
 .empty-state {
   padding: 30px;
@@ -371,9 +318,7 @@ p {
 }
 
 .directory-results,
-.directory-map {
-  padding: 20px;
-}
+.directory-map { padding: 20px; }
 
 .directory-map {
   background: var(--surface);
@@ -388,9 +333,7 @@ p {
   gap: 30px;
 }
 
-.section-gap {
-  margin-top: 20px;
-}
+.section-gap { margin-top: 20px; }
 
 .quick-facts {
   display: grid;
@@ -404,9 +347,7 @@ p {
   border-radius: 6px;
 }
 
-.quick-fact strong {
-  display: block;
-}
+.quick-fact strong { display: block; }
 
 /* Footer */
 
@@ -440,14 +381,8 @@ p {
   object-fit: contain;
 }
 
-.footer-grid h2 {
-  font-size: 1rem;
-}
-
-.footer-grid a:not(.footer-brand) {
-  display: block;
-  margin-bottom: 7px;
-}
+.footer-grid h2 { font-size: 1rem; }
+.footer-grid a:not(.footer-brand) { display: block; margin-bottom: 7px; }
 
 .footer-bottom {
   margin-top: 30px;
@@ -463,9 +398,7 @@ p {
 /* Tablet */
 
 @media (max-width: 850px) {
-  .menu-toggle {
-    display: block;
-  }
+  .menu-toggle { display: block; }
 
   .main-navigation {
     display: none;
@@ -481,13 +414,9 @@ p {
     align-items: stretch;
   }
 
-  .main-navigation.is-open {
-    display: flex;
-  }
+  .main-navigation.is-open { display: flex; }
 
-  .nav-search-wrap {
-    width: 100%;
-  }
+  .nav-search-wrap { width: 100%; }
 
   .nav-search-trigger {
     width: 100%;
@@ -505,9 +434,7 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .header-search-actions {
-    grid-column: auto;
-  }
+  .header-search-actions { grid-column: auto; }
 
   .form-grid,
   .grid-3,
@@ -521,9 +448,7 @@ p {
     border-top: 1px solid var(--border);
   }
 
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* Small mobile */
