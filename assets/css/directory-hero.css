@@ -145,9 +145,16 @@
   outline: none;
 }
 
+/* ================================================================
+   HERO ACTIONS
+   Desktop: Search + More Filters + Calendar + Map + Activities
+   are ALWAYS five columns on one row.
+   ================================================================ */
+
 .directory-hero-actions {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  grid-auto-flow: column;
   align-items: stretch;
   gap: 10px;
   width: 100%;
@@ -161,14 +168,16 @@
 }
 
 .directory-hero-actions > * {
-  width: 100%;
-  min-width: 0;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
 }
 
 .directory-search-button,
 .directory-more-filters,
 .directory-quick-link {
-  width: 100%;
+  width: 100% !important;
   min-width: 0;
   min-height: 44px;
   box-sizing: border-box;
@@ -374,9 +383,10 @@
     grid-column: 1 / -1;
   }
 
+  /* Keep all five hero actions together on desktop/tablet widths. */
   .directory-hero-actions {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    grid-auto-flow: column;
   }
 
   .directory-advanced-grid,
@@ -406,15 +416,17 @@
     min-height: 62px;
   }
 
+  /* Two columns on normal mobile. */
   .directory-hero-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-flow: row;
     gap: 8px;
   }
 
   .directory-search-button,
   .directory-more-filters,
   .directory-quick-link {
-    width: 100%;
+    width: 100% !important;
   }
 
   .directory-modal {
@@ -444,6 +456,6 @@
   }
 
   .directory-hero-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 }
