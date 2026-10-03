@@ -1,33 +1,282 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Find activities | Bubba Hub</title>
 <link rel="stylesheet" href="assets/css/styles.css">
 <script src="assets/js/app.js" defer></script>
+<script src="assets/js/directory.js" defer></script>
 </head>
 <body data-page="directory">
 <div id="site-header"></div>
+
 <main>
-<section class="page-heading"><div class="container"><h1>Find activities</h1><p>Search for family activities, groups, classes and services.</p></div></section>
-<section class="page-section"><div class="container">
-<form class="search-panel" action="directory.html" method="get">
-<div class="form-grid">
-<div class="field"><label for="keyword">Keyword</label><input id="keyword" name="keyword" type="search" placeholder="Activity, group or class"></div>
-<div class="field"><label for="region">Region</label><select id="region" name="region"><option value="">All regions</option><option>Torbay</option><option>Teignbridge</option><option>Exeter</option><option>South Devon</option><option>East Cornwall</option></select></div>
-<div class="field"><label for="town">Town</label><input id="town" name="town" type="text" placeholder="Town"></div>
-</div>
-<div class="form-actions"><button class="button" type="submit">Search</button><button class="button button-secondary" type="button">More filters</button></div>
-</form>
-</div></section>
-<section class="page-section"><div class="container">
-<div class="directory-layout">
-<div class="directory-results"><h2>Activities</h2><div class="empty-state">Activity results will be connected here during the functionality phase.</div></div>
-<div class="directory-map"><h2>Map</h2><div class="empty-state">The interactive map will be connected here later.</div></div>
-</div>
-</div></section>
+  <section class="directory-hero" aria-labelledby="directoryHeroTitle">
+    <div class="container">
+      <div class="directory-hero-content">
+        <span class="directory-hero-eyebrow">Bubba Hub</span>
+        <h1 id="directoryHeroTitle">Find activities for your family</h1>
+        <p>Search classes, groups, clubs and family activities across Devon &amp; Cornwall.</p>
+
+        <form class="directory-hero-search" id="directoryHeroSearch" action="directory.html" method="get">
+          <div class="directory-hero-main-fields">
+            <div class="directory-hero-field directory-hero-keyword">
+              <label for="directoryKeyword">What are you looking for?</label>
+              <div class="directory-search-input-wrap">
+                <span aria-hidden="true">⌕</span>
+                <input id="directoryKeyword" name="keyword" type="search" placeholder="e.g. baby massage, messy play, swimming">
+              </div>
+            </div>
+
+            <div class="directory-hero-field">
+              <label for="directoryRegion">Region</label>
+              <select id="directoryRegion" name="region">
+                <option value="">Any region</option>
+                <option>East Cornwall</option>
+                <option>East Devon</option>
+                <option>Exeter</option>
+                <option>Mid Cornwall</option>
+                <option>Mid Devon</option>
+                <option>North Cornwall</option>
+                <option>North Devon</option>
+                <option>Plymouth</option>
+                <option>South Cornwall</option>
+                <option>South Hams</option>
+                <option>Teignbridge</option>
+                <option>Torbay</option>
+                <option>West Cornwall</option>
+                <option>West Devon</option>
+              </select>
+            </div>
+
+            <div class="directory-hero-field">
+              <label for="directoryTown">Town</label>
+              <input id="directoryTown" name="town" type="search" placeholder="e.g. Torquay">
+            </div>
+
+            <div class="directory-hero-field">
+              <label for="directoryDay">Day</label>
+              <select id="directoryDay" name="day">
+                <option value="">Any day</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="directory-hero-actions">
+            <button class="button directory-search-button" type="submit">
+              <span aria-hidden="true">🔍</span> Search
+            </button>
+
+            <button
+              class="button button-secondary directory-more-filters"
+              id="heroMoreFilters"
+              type="button"
+              aria-expanded="false"
+              aria-controls="heroAdvancedModal"
+            >
+              More filters <span aria-hidden="true">＋</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="directory-quick-links" aria-label="Directory quick links">
+    <div class="container">
+      <div class="directory-quick-link-grid">
+        <a class="directory-quick-link" href="calendar.html">
+          <span class="directory-quick-icon" aria-hidden="true">📅</span>
+          <span><strong>View Calendar</strong><small>Browse activities by date</small></span>
+          <span aria-hidden="true">→</span>
+        </a>
+
+        <a class="directory-quick-link" href="map.html">
+          <span class="directory-quick-icon" aria-hidden="true">📍</span>
+          <span><strong>View Map</strong><small>Explore activities by location</small></span>
+          <span aria-hidden="true">→</span>
+        </a>
+
+        <a class="directory-quick-link" href="#activities">
+          <span class="directory-quick-icon" aria-hidden="true">☰</span>
+          <span><strong>View Activities</strong><small>See all available activities</small></span>
+          <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" id="activities">
+    <div class="container">
+      <div class="directory-results-heading">
+        <h2>Activities</h2>
+        <p>Browse family activities and find something that works for you.</p>
+      </div>
+
+      <div class="directory-layout">
+        <div class="directory-results">
+          <div class="empty-state">
+            <h3>Activities will appear here</h3>
+            <p>The directory results will be connected next.</p>
+          </div>
+        </div>
+
+        <div class="directory-map">
+          <div class="empty-state">
+            <h3>Map</h3>
+            <p>The interactive map will be connected next.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<div class="directory-modal" id="heroAdvancedModal" hidden aria-hidden="true">
+  <div class="directory-modal-backdrop" data-close-advanced></div>
+
+  <section class="directory-modal-panel" role="dialog" aria-modal="true" aria-labelledby="advancedSearchTitle">
+    <div class="directory-modal-header">
+      <div>
+        <span class="directory-hero-eyebrow">Refine your search</span>
+        <h2 id="advancedSearchTitle">More filters</h2>
+        <p>Choose as many options as you like.</p>
+      </div>
+
+      <button class="directory-modal-close" id="heroAdvancedClose" type="button" aria-label="Close filters">×</button>
+    </div>
+
+    <form id="heroAdvancedForm">
+      <div class="directory-advanced-grid">
+
+        <div class="directory-filter-field">
+          <label for="advancedCategory">Category</label>
+          <select id="advancedCategory" name="category">
+            <option value="">Any category</option>
+          </select>
+        </div>
+
+        <div class="directory-filter-field">
+          <label for="advancedAge">Age range</label>
+          <div class="directory-age-fields">
+            <select id="advancedAgeMin" name="age_min" aria-label="Minimum age">
+              <option value="0">0 months</option>
+              <option value="1">1 year</option>
+              <option value="2">2 years</option>
+              <option value="3">3 years</option>
+              <option value="4">4 years</option>
+              <option value="5">5 years</option>
+              <option value="6">6 years</option>
+              <option value="7">7 years</option>
+              <option value="8">8 years</option>
+              <option value="9">9+ years</option>
+            </select>
+            <span>to</span>
+            <select id="advancedAgeMax" name="age_max" aria-label="Maximum age">
+              <option value="0">0 months</option>
+              <option value="1">1 year</option>
+              <option value="2">2 years</option>
+              <option value="3">3 years</option>
+              <option value="4">4 years</option>
+              <option value="5">5 years</option>
+              <option value="6">6 years</option>
+              <option value="7">7 years</option>
+              <option value="8">8 years</option>
+              <option value="9" selected>9+ years</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="directory-filter-field">
+          <label for="advancedPrice">Price</label>
+          <select id="advancedPrice" name="max_price">
+            <option value="">Any price</option>
+            <option value="0">Free</option>
+            <option value="5">Up to £5</option>
+            <option value="10">Up to £10</option>
+            <option value="15">Up to £15</option>
+            <option value="20">Up to £20</option>
+            <option value="30">Up to £30</option>
+            <option value="over30">Over £30</option>
+          </select>
+        </div>
+
+        <div class="directory-filter-field">
+          <label for="advancedSessionLength">Session length</label>
+          <select id="advancedSessionLength" name="sessionLength">
+            <option value="">Any length</option>
+            <option value="60">Up to 60 minutes</option>
+            <option value="120">61–120 minutes</option>
+            <option value="180">121–180 minutes</option>
+            <option value="181">Over 3 hours</option>
+          </select>
+        </div>
+
+        <div class="directory-filter-field">
+          <label for="advancedSen">SEN friendly</label>
+          <select id="advancedSen" name="sen">
+            <option value="">Any</option>
+            <option value="yes">Yes</option>
+            <option value="no">No preference</option>
+          </select>
+        </div>
+
+        <div class="directory-filter-field">
+          <label for="advancedTermTime">Term time</label>
+          <select id="advancedTermTime" name="termTime">
+            <option value="">Any</option>
+            <option value="yes">Term time activities</option>
+            <option value="no">Not term time only</option>
+          </select>
+        </div>
+
+        <div class="directory-filter-field">
+          <label for="advancedBooking">Booking</label>
+          <label class="directory-check">
+            <input id="advancedBooking" name="bookingRequired" value="1" type="checkbox">
+            <span>Booking required</span>
+          </label>
+        </div>
+
+        <div class="directory-filter-field">
+          <label for="advancedFree">Free activities</label>
+          <label class="directory-check">
+            <input id="advancedFree" name="free" value="1" type="checkbox">
+            <span>Show free activities only</span>
+          </label>
+        </div>
+
+        <fieldset class="directory-filter-field directory-filter-full">
+          <legend>Accessibility &amp; family facilities</legend>
+          <div class="directory-check-grid">
+            <label class="directory-check"><input class="accessibility-option" name="accessibility" value="accessible_toilet" type="checkbox"><span>Accessible toilet</span></label>
+            <label class="directory-check"><input class="accessibility-option" name="accessibility" value="step_free" type="checkbox"><span>Step-free access</span></label>
+            <label class="directory-check"><input class="accessibility-option" name="accessibility" value="baby_changing" type="checkbox"><span>Baby changing</span></label>
+            <label class="directory-check"><input class="accessibility-option" name="accessibility" value="buggy_access" type="checkbox"><span>Buggy friendly</span></label>
+            <label class="directory-check"><input class="accessibility-option" name="accessibility" value="quiet_space" type="checkbox"><span>Quiet space</span></label>
+            <label class="directory-check"><input class="accessibility-option" name="accessibility" value="sensory_friendly" type="checkbox"><span>Sensory friendly</span></label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="directory-modal-actions">
+        <button class="button button-secondary" id="heroAdvancedClear" type="button">Clear filters</button>
+        <div>
+          <button class="button" type="submit">Apply filters</button>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+
 <div id="site-footer"></div>
 </body>
 </html>
