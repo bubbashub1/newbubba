@@ -146,9 +146,9 @@
 }
 
 .directory-hero-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: stretch;
-  flex-wrap: nowrap;
   gap: 10px;
   width: 100%;
   margin-top: 14px;
@@ -161,7 +161,7 @@
 }
 
 .directory-hero-actions > * {
-  flex: 1 1 0;
+  width: 100%;
   min-width: 0;
 }
 
@@ -375,6 +375,7 @@
   }
 
   .directory-hero-actions {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 8px;
   }
 
@@ -406,8 +407,7 @@
   }
 
   .directory-hero-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
 
