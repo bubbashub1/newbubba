@@ -1,7 +1,8 @@
 (() => {
   "use strict";
 
-  const slug = new URLSearchParams(window.location.search).get("slug");
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const slug = new URLSearchParams(window.location.search).get("slug") || (pathParts[0] === "activity" && pathParts[1] ? decodeURIComponent(pathParts[1]) : "");
   const title = document.querySelector("[data-activity-title]");
   const desc = document.querySelector("[data-activity-description]");
   const about = document.querySelector("[data-activity-about]");
