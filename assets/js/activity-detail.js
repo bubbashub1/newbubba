@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const id = new URLSearchParams(window.location.search).get("id");
+  const slug = new URLSearchParams(window.location.search).get("slug");
   const title = document.querySelector("[data-activity-title]");
   const desc = document.querySelector("[data-activity-description]");
   const about = document.querySelector("[data-activity-about]");
@@ -30,12 +30,12 @@
       ? "Free"
       : "£" + Number(value).toFixed(2) + " " + (type || "per session");
 
-  if (!id) {
+  if (!slug) {
     if (title) title.textContent = "Activity not found";
     return;
   }
 
-  fetch("api/activities.php?id=" + encodeURIComponent(id), {
+  fetch("api/activities.php?slug=" + encodeURIComponent(slug), {
     headers: { Accept: "application/json" }
   })
     .then(async (response) => {
