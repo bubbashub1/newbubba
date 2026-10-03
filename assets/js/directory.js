@@ -172,7 +172,7 @@
       const price = activity.price == null || Number(activity.price) === 0
         ? "Free"
         : `£${Number(activity.price).toFixed(2)}${activity.price_type ? " " + escapeHtml(activity.price_type) : ""}`;
-      const href = `activity.html?id=${encodeURIComponent(activity.id)}`;
+      const href = `activity.html?slug=${encodeURIComponent(activity.slug || "")}`;
 
       return `
         <article class="directory-activity-card">
