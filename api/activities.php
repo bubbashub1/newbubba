@@ -16,7 +16,7 @@ FROM ".bh_table('activities')." a
 LEFT JOIN ".bh_table('leaders')." l ON l.id=a.leader_id
 LEFT JOIN ".bh_table('activity_venues')." av ON av.activity_id=a.id AND av.is_primary=1
 LEFT JOIN ".bh_table('venues')." v ON v.id=av.venue_id
-WHERE LOWER(COALESCE(a.status,'')) IN ('published','publish','active','approved')";
+WHERE 1=1";
 $params=[];
 
 if($keyword!==''){ $like='%'.$wpdb->esc_like($keyword).'%'; $sql.=" AND (a.title LIKE %s OR a.description LIKE %s OR l.business_name LIKE %s)"; array_push($params,$like,$like,$like); }
