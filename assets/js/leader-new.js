@@ -33,10 +33,6 @@
       option.textContent=item.name;
       categorySelect.appendChild(option);
     });
-
-    if(!(leaders.leaders||[]).length){
-      leaderSelect.innerHTML='<option value="">No class leaders found</option>';
-    }
     if(!(categories.categories||[]).length){
       categorySelect.innerHTML='<option value="">No categories found</option>';
     }
