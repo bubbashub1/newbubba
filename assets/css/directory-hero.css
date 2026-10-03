@@ -4,10 +4,13 @@
    ================================================================ */
 
 .directory-hero {
-  width: 100%;
-  margin: 0;
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   padding: 0;
   background: #e7f1ea;
+  box-sizing: border-box;
 }
 
 .directory-hero > .container {
@@ -15,10 +18,12 @@
   max-width: none;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .directory-hero-content {
   width: 100%;
+  max-width: none;
   margin: 0;
   padding: 35px;
   box-sizing: border-box;
@@ -87,11 +92,18 @@
 
 .directory-hero-field label {
   display: block;
-  margin: 0 0 2px;
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0 0 4px;
+  padding: 0;
   color: #144400;
   font-size: 12px;
   font-weight: 800;
   line-height: 1.15;
+  background: transparent;
+  pointer-events: auto;
+  transform: none;
 }
 
 .directory-hero-field input,
@@ -135,35 +147,41 @@
 
 .directory-hero-actions {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 10px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid rgba(20, 68, 0, .10);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(18, 63, 49, .04);
 }
 
 .directory-hero-actions > * {
-  flex: 0 0 auto;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
-.directory-search-button {
-  min-width: 120px;
+.directory-search-button,
+.directory-more-filters,
+.directory-quick-link {
+  width: 100%;
+  min-width: 0;
   min-height: 44px;
-}
-
-.directory-more-filters {
-  min-width: 135px;
-  min-height: 44px;
+  box-sizing: border-box;
 }
 
 .directory-quick-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
   padding: 0 13px;
   border: 1px solid rgba(20, 68, 0, .12);
-  border-radius: 12px;
-  background: #fff;
+  border-radius: 9px;
+  background: #f8fbf8;
   color: #144400;
   font-size: 13px;
   font-weight: 800;
@@ -390,13 +408,11 @@
   .directory-hero-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 
   .directory-search-button,
-  .directory-more-filters {
-    width: 100%;
-  }
-
+  .directory-more-filters,
   .directory-quick-link {
     width: 100%;
   }
