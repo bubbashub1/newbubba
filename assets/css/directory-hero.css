@@ -458,3 +458,59 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ================================================================
+   EXPLICIT HERO ROWS
+   ================================================================ */
+.directory-hero-row {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+.directory-hero-row-fields .directory-hero-main-fields {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.7fr) repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows: minmax(66px, auto) !important;
+  grid-auto-flow: row !important;
+  width: 100% !important;
+}
+
+.directory-hero-row-actions {
+  margin-top: 14px;
+}
+
+.directory-hero-row-actions .directory-hero-actions {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  grid-template-rows: minmax(44px, auto) !important;
+  grid-auto-flow: row !important;
+  width: 100% !important;
+}
+
+.directory-hero-row-actions .directory-hero-actions > * {
+  grid-column: auto !important;
+  grid-row: 1 !important;
+}
+
+@media (max-width: 600px) {
+  .directory-hero-row-fields .directory-hero-main-fields {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+
+  .directory-hero-row-actions .directory-hero-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: auto !important;
+  }
+
+  .directory-hero-row-actions .directory-hero-actions > * {
+    grid-row: auto !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .directory-hero-row-actions .directory-hero-actions {
+    grid-template-columns: 1fr !important;
+  }
+}
