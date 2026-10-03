@@ -46,8 +46,13 @@ if($title==='') bh_json(['success'=>false,'error'=>'Please enter an activity nam
 if($categoryId===null) bh_json(['success'=>false,'error'=>'Please select a category.'],422);
 if($venueName==='' || $town==='') bh_json(['success'=>false,'error'=>'Please enter the venue name and town.'],422);
 
-$leaderExists=$wpdb->get_var($wpdb->prepare("SELECT id FROM ".bh_table('leaders')." WHERE id=%d",$leaderId));
-if(!$leaderExists) bh_json(['success'=>false,'error'=>'Selected class leader was not found.'],422);
+if($leaderId !== null) {
+    $leaderExists=$wpdb->get_var($wpdb->prepare(
+        "SELECT id FROM ".bh_table('leaders')." WHERE id=%d",
+        $leaderId
+    ));
+    if(!$leaderExists) bh_json(['success'=>false,'error'=>'Selected class leader was not found.'],422);
+}
 
 $categoryExists=$wpdb->get_var($wpdb->prepare("SELECT id FROM ".bh_table('categories')." WHERE id=%d",$categoryId));
 if(!$categoryExists) bh_json(['success'=>false,'error'=>'Selected category was not found.'],422);
