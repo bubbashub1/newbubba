@@ -25,7 +25,7 @@ if (!isset($wpdb) || !is_object($wpdb)) {
 }
 
 function bh_table(string $name): string {
-    $allowed = ['activities','leaders','venues','categories','tags','activity_categories','activity_tags','activity_venues','activity_schedules','activity_accessibility','activity_images','users','children','favourites','planner_items','bookings','payments','reviews','ads','app_profiles','app_notifications','app_planner','app_messages','app_pro';
+    $allowed = ['activities','leaders','venues','categories','tags','activity_categories','activity_tags','activity_venues','activity_schedules','activity_accessibility','activity_images','users','children','favourites','planner_items','bookings','payments','reviews','ads','app_profiles','app_notifications','app_planner','app_messages','app_pro'];
     if (!in_array($name, $allowed, true)) {
         throw new InvalidArgumentException('Invalid Bubba Hub table.');
     }
