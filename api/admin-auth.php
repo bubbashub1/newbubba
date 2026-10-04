@@ -81,7 +81,7 @@ try {
                 ['email'=>$email,'password_hash'=>$newHash,'name'=>$name,'role'=>'admin','status'=>'active'],
                 ['%s','%s','%s','%s','%s']
             );
-            if($ok===false)bh_json(['success'=>false,'error'=>'Could not create the admin account.','database_error'=>(string)$wpdb->last_error],500);
+            if($ok===false)bh_json(['success'=>false,'error'=>'Could not create the admin account.','database_error'=>(string)$wpdb->last_error,'db_errno'=>(int)$wpdb->dbh->errno],500);
             $adminId=(int)$wpdb->insert_id;
         }
 
