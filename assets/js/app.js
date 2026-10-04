@@ -11,7 +11,7 @@
     ["account", "My Account", "account.html"]
   ];
 
-  const logoPath = "/images/logos/logoheader.png";
+  const logoPath = "/images/logos/gemini_generated_image_t65ztnt65ztnt65z-20260930-185704-7e0755.jpeg";
 
   function renderHeader() {
     const target = document.getElementById("site-header");
