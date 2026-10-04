@@ -1,5 +1,4 @@
-/* Bubba Hub / Newbury - Phase 1
-   Shared shell only. No backend or old application code. */
+/* Bubba Hub — shared site shell */
 
 (() => {
   "use strict";
@@ -24,10 +23,9 @@
 
           <a class="brand" href="/" aria-label="Bubba Hub home">
             <span class="brand-logo-wrap">
-              <img class="brand-logo" src="${logoPath}" alt="Bubba Hub logo">
-              <span class="brand-fallback">BH</span>
+              <img class="brand-logo" src="${logoPath}" alt="Bubba Hub">
+              <span class="brand-fallback" aria-hidden="true">BH</span>
             </span>
-            <span class="brand-name">Bubba Hub</span>
           </a>
 
           <button
@@ -48,71 +46,56 @@
                 type="button"
                 aria-expanded="false"
                 aria-controls="header-search"
-              >
-                Find activities
-              </button>
+              >Find activities</button>
 
               <div class="header-search" id="header-search" hidden>
                 <form action="/directory.html" method="get">
-
                   <div class="header-search-fields">
 
                     <div class="header-search-field">
                       <label for="header-keyword">What are you looking for?</label>
-                      <input
-                        type="search"
-                        id="header-keyword"
-                        name="keyword"
-                        placeholder="e.g. baby massage"
-                      >
+                      <input type="search" id="header-keyword" name="keyword" placeholder="e.g. baby massage">
                     </div>
 
                     <div class="header-search-field">
                       <label for="header-region">Region</label>
                       <select id="header-region" name="region">
                         <option value="">Any region</option>
-                        <option value="East Cornwall">East Cornwall</option>
-                        <option value="East Devon">East Devon</option>
-                        <option value="Exeter">Exeter</option>
-                        <option value="Mid Cornwall">Mid Cornwall</option>
-                        <option value="Mid Devon">Mid Devon</option>
-                        <option value="North Cornwall">North Cornwall</option>
-                        <option value="North Devon">North Devon</option>
-                        <option value="Plymouth">Plymouth</option>
-                        <option value="South Cornwall">South Cornwall</option>
-                        <option value="South Hams">South Hams</option>
-                        <option value="Teignbridge">Teignbridge</option>
-                        <option value="Torbay">Torbay</option>
-                        <option value="West Cornwall">West Cornwall</option>
-                        <option value="West Devon">West Devon</option>
+                        <option>East Cornwall</option>
+                        <option>East Devon</option>
+                        <option>Exeter</option>
+                        <option>Mid Cornwall</option>
+                        <option>Mid Devon</option>
+                        <option>North Cornwall</option>
+                        <option>North Devon</option>
+                        <option>Plymouth</option>
+                        <option>South Cornwall</option>
+                        <option>South Hams</option>
+                        <option>Teignbridge</option>
+                        <option>Torbay</option>
+                        <option>West Cornwall</option>
+                        <option>West Devon</option>
                       </select>
                     </div>
 
                     <div class="header-search-field">
                       <label for="header-town">Town</label>
-                      <input
-                        type="search"
-                        id="header-town"
-                        name="town"
-                        placeholder="e.g. Torquay"
-                      >
-                    </div>
-
-                    <div class="header-search-actions">
-                      <button class="button" type="submit">Search</button>
-                      <a class="button button-secondary" href="/directory.html">View all activities</a>
+                      <input type="search" id="header-town" name="town" placeholder="e.g. Torquay">
                     </div>
 
                   </div>
 
+                  <div class="header-search-actions">
+                    <button class="button" type="submit">Search</button>
+                    <a class="button button-secondary" href="/directory.html">View all activities</a>
+                  </div>
                 </form>
               </div>
             </div>
 
-            <a href="/hub/my-hub.html" data-nav="my-hub">My Hub</a>
-            <a href="/help-support.html" data-nav="help-support">Support &amp; Guidance</a>
-            <a href="/leader.html" data-nav="leader">Class Leaders</a>
-            <a href="/account.html" data-nav="account">My Account</a>
+            ${navigation.slice(1).map(([key, label, href]) =>
+              `<a href="/${href}" data-nav="${key}">${label}</a>`
+            ).join("")}
 
           </nav>
         </div>
@@ -120,14 +103,11 @@
     `;
 
     const page = document.body.dataset.page;
+    const active = target.querySelector(`[data-nav="${page}"]`);
 
     if (page === "directory") {
-      const searchTrigger = target.querySelector(".nav-search-trigger");
-      searchTrigger.classList.add("is-active");
-      searchTrigger.setAttribute("aria-current", "page");
+      target.querySelector(".nav-search-trigger")?.classList.add("is-active");
     }
-
-    const active = target.querySelector(`[data-nav="${page}"]`);
 
     if (active) {
       active.classList.add("is-active");
@@ -136,52 +116,64 @@
 
     const menuButton = target.querySelector(".menu-toggle");
     const nav = target.querySelector(".main-navigation");
+    const searchTrigger = target.querySelector(".nav-search-trigger");
+    const searchPanel = target.querySelector(".header-search");
+
+    const closeSearch = () => {
+      searchTrigger.setAttribute("aria-expanded", "false");
+      searchPanel.hidden = true;
+      searchPanel.classList.remove("is-open");
+    };
+
+    const closeMenu = () => {
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Open menu");
+      nav.classList.remove("is-open");
+    };
 
     menuButton.addEventListener("click", () => {
       const open = menuButton.getAttribute("aria-expanded") === "true";
-
-      menuButton.setAttribute("aria-expanded", String(!open));
-      menuButton.setAttribute("aria-label", open ? "Open menu" : "Close menu");
-      nav.classList.toggle("is-open", !open);
+      if (open) {
+        closeMenu();
+      } else {
+        menuButton.setAttribute("aria-expanded", "true");
+        menuButton.setAttribute("aria-label", "Close menu");
+        nav.classList.add("is-open");
+      }
     });
-
-    const searchTrigger = target.querySelector(".nav-search-trigger");
-    const searchPanel = target.querySelector(".header-search");
 
     searchTrigger.addEventListener("click", () => {
       const open = searchTrigger.getAttribute("aria-expanded") === "true";
 
-      searchTrigger.setAttribute("aria-expanded", String(!open));
-      searchPanel.hidden = open;
-      searchPanel.classList.toggle("is-open", !open);
-
-      if (!open) {
-        setTimeout(() => {
-          target.querySelector("#header-keyword")?.focus();
-        }, 0);
+      if (open) {
+        closeSearch();
+        return;
       }
+
+      searchTrigger.setAttribute("aria-expanded", "true");
+      searchPanel.hidden = false;
+      searchPanel.classList.add("is-open");
+
+      requestAnimationFrame(() => {
+        target.querySelector("#header-keyword")?.focus();
+      });
     });
 
     nav.querySelectorAll("a[data-nav]").forEach(link => {
       link.addEventListener("click", () => {
-        menuButton.setAttribute("aria-expanded", "false");
-        nav.classList.remove("is-open");
-        searchTrigger.setAttribute("aria-expanded", "false");
-        searchPanel.hidden = true;
-        searchPanel.classList.remove("is-open");
+        closeMenu();
+        closeSearch();
       });
     });
 
-    document.addEventListener("click", (event) => {
+    document.addEventListener("click", event => {
       if (!target.contains(event.target)) {
-        searchTrigger.setAttribute("aria-expanded", "false");
-        searchPanel.hidden = true;
-        searchPanel.classList.remove("is-open");
+        closeSearch();
+        closeMenu();
       }
     });
 
     const logo = target.querySelector(".brand-logo");
-
     logo.addEventListener("error", () => {
       logo.style.display = "none";
       target.querySelector(".brand-fallback").style.display = "grid";
