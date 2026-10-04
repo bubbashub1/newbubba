@@ -8,19 +8,22 @@ $candidates = [
     ($_SERVER['DOCUMENT_ROOT'] ?? '') . '/wp-config.php'
 ];
 
+$loaded = false;
 foreach ($candidates as $file) {
     if ($file && is_file($file)) {
         require_once $file;
+        $loaded = true;
         break;
     }
 }
 
 global $wpdb;
 
-if (!isset($wpdb) || !is_object($wpdb)) {
+if (!$loaded || !isset($wpdb) || !is_object($wpdb)) {
     http_response_code(500);
     header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['success'=>false,'error'=>'WordPress database connection could not be loaded.']);
+    header('Cache-Control: no-store');
+    echo json_encode(['success'=>false,'error'=>'Database connection could not be loaded.']);
     exit;
 }
 
@@ -32,42 +35,37 @@ function bh_table(string $name): string {
     return 'bh_' . $name;
 }
 
+function bh_start_session(): void {
+    if (session_status() === PHP_SESSION_ACTIVE) return;
+    if (!headers_sent()) {
+        session_set_cookie_params([
+            'lifetime'=>0,
+            'path'=>'/',
+            'secure'=>!empty($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off',
+            'httponly'=>true,
+            'samesite'=>'Lax'
+        ]);
+        session_start();
+    }
+}
 
 function bh_is_admin(): bool {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        if (!headers_sent()) {
-            session_set_cookie_params([
-                'lifetime'=>0,
-                'path'=>'/',
-                'secure'=>!empty($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off',
-                'httponly'=>true,
-                'samesite'=>'Lax'
-            ]);
-            session_start();
-        }
-    }
-    $id = (int)($_SESSION['bh_admin_user_id'] ?? 0);
-    if ($id < 1) return false;
-
+    bh_start_session();
+    $id=(int)($_SESSION['bh_admin_user_id']??0);
+    if($id<1)return false;
     global $wpdb;
-    $role = $wpdb->get_var($wpdb->prepare(
-        "SELECT role FROM bh_users WHERE id=%d AND status='active' LIMIT 1",
-        $id
-    ));
-
-    return $role === 'admin';
+    $role=$wpdb->get_var($wpdb->prepare("SELECT role FROM bh_users WHERE id=%d AND status='active' LIMIT 1",$id));
+    return $role==='admin';
 }
 
 function bh_require_admin(): void {
-    if (!bh_is_admin()) {
-        bh_json(['success'=>false,'error'=>'admin_required'],403);
-    }
+    if(!bh_is_admin())bh_json(['success'=>false,'error'=>'admin_required'],403);
 }
 
-function bh_json(mixed $data, int $status = 200): never {
+function bh_json(mixed $data,int $status=200): never {
     http_response_code($status);
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-Control: no-store');
-    echo json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    echo json_encode($data,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     exit;
 }
