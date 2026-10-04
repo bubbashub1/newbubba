@@ -15,3 +15,17 @@
 /* Profile images */
 .hub-profile-image,.hub-child-photo,.hub-family-photo,.hub-bump-photo-large,.hub-bump-photo-preview{width:200px;height:200px;min-width:200px;min-height:200px;border-radius:50%;overflow:hidden;display:grid;place-items:center;object-fit:cover}
 .hub-profile-image img,.hub-child-photo img,.hub-family-photo img,.hub-bump-photo-large img,.hub-bump-photo-preview img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+
+/* Global My Hub sub-page banner */
+.hub-page-hero{
+  padding:32px 35px 30px;
+  margin:0 0 24px;
+  background:linear-gradient(135deg,#d8e6db 0%,#9fb7a5 48%,#3c8e96 100%);
+  border:0;
+  border-radius:22px;
+  box-shadow:0 14px 34px rgba(20,68,0,.10);
+}
+.hub-page-hero h1{color:#144400}
+.hub-page-hero p{color:#243027}
+@media(max-width:600px){.hub-page-hero{padding:25px 20px 24px;border-radius:18px}}
