@@ -42,7 +42,7 @@ function initMap(a){
   const d=await r.json();
   if(!r.ok||!d.success||!d.activities?.[0])throw Error(d.error||"Activity could not be loaded.");
   const a=d.activities[0];
-  currentActivity=a;
+  currentActivity=a;\n  try{let recent=JSON.parse(localStorage.getItem("bh_recently_viewed")||"[]");recent=recent.filter(x=>Number(x.id)!==Number(a.id));recent.unshift({id:Number(a.id),title:a.title||"Activity",slug:a.slug||slug,venue:a.venue_name||"",town:a.town||""});localStorage.setItem("bh_recently_viewed",JSON.stringify(recent.slice(0,12)));}catch(e){}
   document.title=(a.title||"Activity")+" | Bubba Hub";
   if(title)title.textContent=a.title||"Activity";
   if(heroImage){const image=String(a.image_url||"").trim()||"/wp-content/uploads/logo/placeholder.jpeg";heroImage.innerHTML='<img src="'+esc(image)+'" alt="" onerror="this.onerror=null;this.src=\'/wp-content/uploads/logo/placeholder.jpeg\';">';}
@@ -147,7 +147,7 @@ function toggleLocal(type,button,onText,offText){
   if(!currentActivity||!button)return;
   const id=Number(currentActivity.id), key=activityStorageKey(type,id);
   const next=localStorage.getItem(key)!=="1";
-  if(next){localStorage.setItem(key,"1");localStorage.setItem("bh_planner_item_"+id,JSON.stringify({id,title:currentActivity.title||"Activity",slug:currentActivity.slug||slug,venue:currentActivity.venue_name||"",town:currentActivity.town||"",schedules:Array.isArray(currentActivity.schedules)?currentActivity.schedules:[]}));}else{localStorage.removeItem(key);localStorage.removeItem("bh_planner_item_"+id);}
+  if(next){localStorage.setItem(key,"1");}else{localStorage.removeItem(key);}
   button.classList.toggle("is-saved",next);
   button.textContent=next?onText:offText;
 }
