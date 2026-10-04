@@ -109,7 +109,7 @@
               </div>
             </div>
 
-            <a href="/my-hub.html" data-nav="my-hub">My Hub</a>
+            <a href="/hub/my-hub.html" data-nav="my-hub">My Hub</a>
             <a href="/help-support.html" data-nav="help-support">Support &amp; Guidance</a>
             <a href="/leader.html" data-nav="leader">Class Leaders</a>
             <a href="/account.html" data-nav="account">My Account</a>
@@ -193,7 +193,7 @@
           <div>
             <h2>Main menu</h2>
             <a href="/directory.html">Find activities</a>
-            <a href="/my-hub.html">My Hub</a>
+            <a href="/hub/my-hub.html">My Hub</a>
             <a href="/help-support.html">Support &amp; Guidance</a>
             <a href="/leader.html">Class Leaders</a>
             <a href="/account.html">My Account</a>
