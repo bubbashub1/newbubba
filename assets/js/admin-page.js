@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const page=document.querySelector("[data-admin-page]");if(!page)return;fetch("/api/admin-auth.php",{cache:"no-store"}).then(r=>r.json()).then(d=>{if(!d.authenticated){window.location.href="/admin/login";return}page.hidden=false}).catch(()=>{window.location.href="/admin/login"})});
