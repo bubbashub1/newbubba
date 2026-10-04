@@ -6,10 +6,10 @@ const slug=querySlug||((pathParts[0]==="activity"&&pathParts[1])?decodeURICompon
 const title=document.querySelector("[data-activity-title]");
 const heroImage=document.querySelector("[data-activity-image]");
 const desc=document.querySelector("[data-activity-description]");
-const heroOrganiser=document.querySelector("[data-activity-organiser]");
+const heroOrganiser=document.querySelector("[data-activity-hero-organiser]");
 const about=document.querySelector("[data-activity-about]");
 const venue=document.querySelector("[data-activity-venue]");
-const organiser=document.querySelector("[data-activity-organiser]");
+const organiser=document.querySelector(".activity-organiser-card[data-activity-organiser]");
 const facts=document.querySelector("[data-activity-facts]");
 const categories=document.querySelector("[data-activity-categories]");
 const schedule=document.querySelector("[data-activity-schedule]");
@@ -42,6 +42,7 @@ function initMap(a){
   const d=await r.json();
   if(!r.ok||!d.success||!d.activities?.[0])throw Error(d.error||"Activity could not be loaded.");
   const a=d.activities[0];
+  currentActivity=a;
   document.title=(a.title||"Activity")+" | Bubba Hub";
   if(title)title.textContent=a.title||"Activity";
   if(heroImage){const image=String(a.image_url||"").trim()||"/wp-content/uploads/logo/placeholder.jpeg";heroImage.innerHTML='<img src="'+esc(image)+'" alt="" onerror="this.onerror=null;this.src=\'/wp-content/uploads/logo/placeholder.jpeg\';">';}
@@ -89,10 +90,97 @@ if(organiser){
     else contact.remove();
   }
   initMap(a);
+  loadSavedState(a.id);
+  loadLocalActionState(a);
  }catch(e){
   if(title)title.textContent="Activity not found";
   if(desc)desc.textContent=e.message;
  }
 })();
-save?.addEventListener("click",()=>{save.classList.toggle("is-saved");save.textContent=save.classList.contains("is-saved")?"♥ Saved":"♡ Save";});
+const planner=document.getElementById("addToPlanner");
+const visited=document.getElementById("markVisited");
+const compare=document.getElementById("compareActivity");
+let currentActivity=null;
+let csrfToken="";
+
+async function loadSavedState(activityId){
+  if(!save)return;
+  try{
+    const r=await fetch("/api/favourites.php",{headers:{Accept:"application/json"}});
+    const d=await r.json();
+    if(r.ok&&d.success){
+      csrfToken=d.csrf||"";
+      const isSaved=Array.isArray(d.activities)&&d.activities.some(x=>Number(x.activity_id)===Number(activityId));
+      save.classList.toggle("is-saved",isSaved);
+      save.textContent=isSaved?"♥ Saved":"♡ Save";
+    }else if(r.status===401){
+      save.classList.remove("is-saved");
+      save.textContent="♡ Save";
+    }
+  }catch(e){}
+}
+
+async function toggleSaved(){
+  if(!currentActivity||!save)return;
+  save.disabled=true;
+  try{
+    if(!csrfToken){
+      const r=await fetch("/api/favourites.php",{headers:{Accept:"application/json"}});
+      const d=await r.json();
+      if(r.status===401){alert("Please sign in to save activities.");return;}
+      if(!r.ok||!d.success)throw Error(d.message||d.error||"Could not load saved activities.");
+      csrfToken=d.csrf||"";
+    }
+    const next=!save.classList.contains("is-saved");
+    const r=await fetch("/api/favourites.php",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({csrf:csrfToken,activity_id:Number(currentActivity.id),saved:next})
+    });
+    const d=await r.json();
+    if(r.status===401){alert("Please sign in to save activities.");return;}
+    if(!r.ok||!d.success)throw Error(d.message||d.error||"Could not update saved activity.");
+    save.classList.toggle("is-saved",next);
+    save.textContent=next?"♥ Saved":"♡ Save";
+  }catch(e){alert(e.message||"Could not update saved activity.");}
+  finally{save.disabled=false;}
+}
+
+function activityStorageKey(type,id){return "bh_"+type+"_"+id;}
+function loadLocalActionState(a){
+  const id=Number(a.id);
+  const planned=localStorage.getItem(activityStorageKey("planner",id))==="1";
+  const wasVisited=localStorage.getItem(activityStorageKey("visited",id))==="1";
+  planner?.classList.toggle("is-saved",planned);
+  if(planner)planner.textContent=planned?"✓ In Planner":"＋ Add to Planner";
+  visited?.classList.toggle("is-saved",wasVisited);
+  if(visited)visited.textContent=wasVisited?"✓ Visited":"○ Visited";
+}
+function toggleLocal(type,button,onText,offText){
+  if(!currentActivity||!button)return;
+  const id=Number(currentActivity.id), key=activityStorageKey(type,id);
+  const next=localStorage.getItem(key)!=="1";
+  if(next)localStorage.setItem(key,"1");else localStorage.removeItem(key);
+  button.classList.toggle("is-saved",next);
+  button.textContent=next?onText:offText;
+}
+save?.addEventListener("click",toggleSaved);
+planner?.addEventListener("click",()=>toggleLocal("planner",planner,"✓ In Planner","＋ Add to Planner"));
+visited?.addEventListener("click",()=>toggleLocal("visited",visited,"✓ Visited","○ Visited"));
+compare?.addEventListener("click",()=>{
+  if(!currentActivity)return;
+  const key="bh_compare";
+  let items=[];
+  try{items=JSON.parse(localStorage.getItem(key)||"[]");}catch(e){}
+  const id=Number(currentActivity.id);
+  const exists=items.some(x=>Number(x.id)===id);
+  if(exists)items=items.filter(x=>Number(x.id)!==id);
+  else{
+    if(items.length>=3){alert("You can compare up to 3 activities.");return;}
+    items.push({id:id,title:currentActivity.title||"Activity",slug:currentActivity.slug||slug});
+  }
+  localStorage.setItem(key,JSON.stringify(items));
+  compare.classList.toggle("is-saved",!exists);
+  compare.textContent=!exists?"✓ Compared":"Compare";
+});
 })();
