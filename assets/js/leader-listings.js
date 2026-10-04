@@ -5,7 +5,7 @@ const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>
 (async()=>{
  try{
   const auth=await (await fetch("../api/auth.php",{headers:{Accept:"application/json"}})).json();
-  if(!auth.authenticated){message.textContent="Please sign in to view your listings.";return;}
+  if(!auth.authenticated&&!window.BH_BUILD_MODE){message.textContent="Please sign in to view your listings.";return;}
   const r=await fetch("../api/activities.php?mine=1",{headers:{Accept:"application/json"}}),d=await r.json();
   if(!r.ok||!d.success)throw Error(d.error||"Could not load your listings.");
   if(!d.activities.length){message.textContent="No activities have been added to your linked leader account yet.";list.innerHTML='<a class="section-card" href="new.html"><span class="section-icon">＋</span><h2>Add an activity</h2><p>Create your first class or group.</p></a>';return;}
