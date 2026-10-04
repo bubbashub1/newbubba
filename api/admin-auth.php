@@ -28,9 +28,24 @@ try {
     $columns=$wpdb->get_results("SHOW COLUMNS FROM bh_users");
     $columnNames=[];
     foreach(($columns?:[]) as $column) $columnNames[]=(string)$column->Field;
-    if(!in_array('name',$columnNames,true)) $wpdb->query("ALTER TABLE bh_users ADD COLUMN name VARCHAR(190) NULL AFTER password_hash");
-    if(!in_array('auth_provider',$columnNames,true)) $wpdb->query("ALTER TABLE bh_users ADD COLUMN auth_provider VARCHAR(30) NOT NULL DEFAULT 'password' AFTER status");
-    if(!in_array('google_sub',$columnNames,true)) $wpdb->query("ALTER TABLE bh_users ADD COLUMN google_sub VARCHAR(255) NULL UNIQUE AFTER email");
+
+    if(!in_array('name',$columnNames,true)){
+        $alter=$wpdb->query("ALTER TABLE bh_users ADD COLUMN name VARCHAR(190) NULL");
+        if($alter===false) bh_json(['success'=>false,'error'=>'Could not upgrade the Bubba Hub user table.','database_error'=>(string)$wpdb->last_error],500);
+    }
+    $columns=$wpdb->get_results("SHOW COLUMNS FROM bh_users");
+    $columnNames=[];
+    foreach(($columns?:[]) as $column) $columnNames[]=(string)$column->Field;
+    if(!in_array('auth_provider',$columnNames,true)){
+        $alter=$wpdb->query("ALTER TABLE bh_users ADD COLUMN auth_provider VARCHAR(30) NOT NULL DEFAULT 'password'");
+        if($alter===false) bh_json(['success'=>false,'error'=>'Could not upgrade the Bubba Hub user table.','database_error'=>(string)$wpdb->last_error],500);
+    }
+    $columns=$wpdb->get_results("SHOW COLUMNS FROM bh_users");
+    $columnNames=[];
+    foreach(($columns?:[]) as $column) $columnNames[]=(string)$column->Field;
+    if(!in_array('google_sub',$columnNames,true)){
+        $wpdb->query("ALTER TABLE bh_users ADD COLUMN google_sub VARCHAR(255) NULL");
+    }
 
     if(!isset($_SESSION['bh_admin_csrf']))$_SESSION['bh_admin_csrf']=bin2hex(random_bytes(24));
     $body=json_decode((string)file_get_contents('php://input'),true);
