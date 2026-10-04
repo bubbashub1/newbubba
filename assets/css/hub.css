@@ -8,3 +8,23 @@
 .hub-help-item p{margin:0 0 8px;color:var(--muted);line-height:1.5}
 .hub-help-item a{font-weight:800;color:var(--green-dark);text-decoration:none}
 @media(max-width:600px){.hub-help-item{padding:16px}.hub-help-item>span{font-size:22px}}
+
+.planner-day-list{display:grid;gap:14px}
+.planner-day-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.planner-day-selector button{border:1px solid var(--border);background:#fff;padding:9px 14px;border-radius:999px;font:inherit;font-weight:800;color:var(--green-dark);cursor:pointer}
+.planner-day-selector button.active{background:var(--green-dark);color:#fff}
+.planner-week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.planner-week-day{min-height:150px;padding:14px;border:1px solid var(--border);border-radius:12px;background:#fff}
+.planner-week-day h3{margin:0 0 3px;color:var(--green-dark);font-size:1rem}
+.planner-week-day small{color:var(--muted)}
+.planner-mini-item{display:grid;gap:3px;margin-top:10px;padding:9px;border-radius:9px;background:var(--green-light);font-size:.82rem}
+.planner-mini-item strong,.planner-mini-item span{overflow-wrap:anywhere}
+.planner-mini-item span{color:var(--muted)}
+.planner-no-items{margin:12px 0 0;color:var(--muted);font-size:.85rem}
+.planner-month-title{margin-bottom:12px;color:var(--green-dark);font-size:1.1rem}
+.planner-month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.planner-month-day{min-height:82px;padding:9px;border:1px solid var(--border);border-radius:10px;background:#fff}
+.planner-month-empty{background:transparent;border-style:dashed}
+.planner-month-day>.planner-mini-item{font-size:.76rem;margin-top:7px}
+@media(max-width:900px){.planner-week-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.planner-day-selector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.planner-day-selector button{width:100%}.planner-week-grid{grid-template-columns:1fr}.planner-month-grid{gap:5px}.planner-month-day{min-height:65px;padding:7px;font-size:.85rem}}
