@@ -176,6 +176,7 @@
       const imageUrl = String(activity.image_url || "").trim() || "/wp-content/uploads/logo/placeholder.jpeg";
 
       const badges = [
+        `<span class="directory-badge directory-badge-organiser">${escapeHtml(activity.organiser || "Family activity")}</span>`,
         activity.featured ? '<span class="directory-badge directory-badge-featured">Featured</span>' : "",
         activity.booking_required ? '<span class="directory-badge directory-badge-booking">Booking required</span>' : ""
       ].join("");
