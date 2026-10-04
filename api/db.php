@@ -62,7 +62,7 @@ function bh_require_admin(): void {
     if(!bh_is_admin())bh_json(['success'=>false,'error'=>'admin_required'],403);
 }
 
-function bh_json(mixed $data,int $status=200): never {
+function bh_json($data,int $status=200) {
     http_response_code($status);
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-Control: no-store');
