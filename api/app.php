@@ -7,7 +7,7 @@ $userId=(int)($_SESSION['bh_user_id']??0);
 if(!isset($_SESSION['bh_csrf'])) $_SESSION['bh_csrf']=bin2hex(random_bytes(24));
 
 $tables=[
-"CREATE TABLE IF NOT EXISTS bh_app_profiles (user_id BIGINT UNSIGNED PRIMARY KEY, phone VARCHAR(60) NULL, postcode VARCHAR(20) NULL, region VARCHAR(100) NULL, town VARCHAR(100) NULL, updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)",
+"CREATE TABLE IF NOT EXISTS bh_app_profiles (user_id BIGINT UNSIGNED PRIMARY KEY, phone VARCHAR(60) NULL, postcode VARCHAR(20) NULL, region VARCHAR(100) NULL, town VARCHAR(100) NULL, email_updates TINYINT(1) NOT NULL DEFAULT 1, planner_reminders TINYINT(1) NOT NULL DEFAULT 1, saved_activity_updates TINYINT(1) NOT NULL DEFAULT 1, updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)",
 "CREATE TABLE IF NOT EXISTS bh_app_notifications (id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,user_id BIGINT UNSIGNED NOT NULL,type VARCHAR(50) NOT NULL,title VARCHAR(190) NOT NULL,message TEXT NULL,read_at DATETIME NULL,created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,KEY user_id(user_id))",
 "CREATE TABLE IF NOT EXISTS bh_app_planner (id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,user_id BIGINT UNSIGNED NOT NULL,activity_id BIGINT UNSIGNED NULL,title VARCHAR(190) NOT NULL,start_at DATETIME NULL,end_at DATETIME NULL,notes TEXT NULL,status VARCHAR(30) NOT NULL DEFAULT 'planned',created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,KEY user_id(user_id))",
 "CREATE TABLE IF NOT EXISTS bh_app_messages (id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,user_id BIGINT UNSIGNED NULL,name VARCHAR(190) NOT NULL,email VARCHAR(190) NOT NULL,subject VARCHAR(190) NOT NULL,message TEXT NOT NULL,status VARCHAR(30) NOT NULL DEFAULT 'new',created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP)",
@@ -36,6 +36,18 @@ if($action==='profile' && $_SERVER['REQUEST_METHOD']==='POST'){
  $wpdb->query($wpdb->prepare("INSERT INTO bh_app_profiles(user_id,phone,postcode,region,town) VALUES(%d,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE phone=VALUES(phone),postcode=VALUES(postcode),region=VALUES(region),town=VALUES(town)",$userId,$phone,$postcode,$region,$town));
  if($name!=='') $wpdb->update('bh_users',['name'=>$name],['id'=>$userId],['%s'],['%d']);
  bh_json(['success'=>true]);
+}
+if($action==='notification_preferences' && $_SERVER['REQUEST_METHOD']==='POST'){
+ if(!hash_equals((string)$_SESSION['bh_csrf'],(string)($body['csrf']??''))) bh_json(['success'=>false,'error'=>'Security check failed.'],403);
+ $fields=['email_updates','planner_reminders','saved_activity_updates']; $set=[]; $vals=[];
+ foreach($fields as $f){$set[]=$f.'=%d';$vals[]=!empty($body[$f])?1:0;} $vals[]=$userId;
+ $wpdb->query($wpdb->prepare('UPDATE bh_app_profiles SET '.implode(',',$set).' WHERE user_id=%d',...$vals));
+ if($wpdb->rows_affected===0) $wpdb->query($wpdb->prepare('INSERT INTO bh_app_profiles(user_id,email_updates,planner_reminders,saved_activity_updates) VALUES(%d,%d,%d,%d)',$userId,$vals[0],$vals[1],$vals[2]));
+ bh_json(['success'=>true]);
+}
+if($action==='notification_preferences' && $_SERVER['REQUEST_METHOD']==='GET'){
+ $p=$wpdb->get_row($wpdb->prepare('SELECT email_updates,planner_reminders,saved_activity_updates FROM bh_app_profiles WHERE user_id=%d',$userId),ARRAY_A) ?: ['email_updates'=>1,'planner_reminders'=>1,'saved_activity_updates'=>1];
+ bh_json(['success'=>true,'preferences'=>$p,'csrf'=>$_SESSION['bh_csrf']]);
 }
 if($action==='planner'){
  if($_SERVER['REQUEST_METHOD']==='GET'){
