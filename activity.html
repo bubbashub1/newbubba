@@ -6,17 +6,53 @@
 <title>Activity | Bubba Hub</title>
 <link rel="stylesheet" href="assets/css/styles.css">
 <link rel="stylesheet" href="assets/css/activity.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="assets/js/app.js" defer></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 <script src="assets/js/activity-detail.js" defer></script>
 </head>
 <body data-page="activity">
 <div id="site-header"></div>
 <main>
-<section class="activity-hero"><div class="container"><div class="activity-hero-inner"><div class="activity-hero-copy"><p><a href="directory.html">← Back to activities</a></p><span class="activity-eyebrow">Bubba Hub activity</span><h1 data-activity-title>Loading activity…</h1><p data-activity-description>Loading activity information…</p></div><div class="activity-hero-image" data-activity-image aria-hidden="true"></div></div></div></section>
-<section class="page-section activity-detail-section"><div class="container activity-layout">
-<div><div class="card"><h2>About this activity</h2><div data-activity-about><p>Loading…</p></div></div><div class="card section-gap" data-activity-venue><h2>Venue</h2><p>Loading…</p></div></div>
-<aside><div class="card"><h2>Quick facts</h2><div class="quick-facts" data-activity-facts><div class="quick-fact"><strong>Loading</strong><span>Activity information…</span></div></div><div class="form-actions"><a class="button" data-activity-contact href="#">Contact organiser</a><button class="button button-secondary" type="button" id="saveActivity">♡ Save activity</button></div></div></aside>
-</div></section>
+<section class="activity-detail-hero">
+  <div class="activity-detail-hero-inner">
+    <div class="activity-detail-hero-image" data-activity-image aria-hidden="true"></div>
+    <div class="activity-detail-hero-content">
+      <span class="activity-detail-kicker">A local family activity listed on Bubba Hub.</span>
+      <h1 data-activity-title>Loading activity…</h1>
+      <p data-activity-description>Loading activity information…</p>
+      <div class="activity-detail-facts" data-activity-facts></div>
+      <div class="activity-detail-actions">
+        <button class="activity-action" type="button" id="saveActivity">♡ Save</button>
+        <button class="activity-action" type="button">＋ Add to Planner</button>
+        <button class="activity-action" type="button">○ Visited</button>
+        <button class="activity-action" type="button">Compare</button>
+        <a class="activity-action activity-action-book" data-activity-contact href="#">Book Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="activity-detail-main">
+  <div class="activity-detail-content">
+    <div class="activity-category-chips" data-activity-categories></div>
+    <h2 data-activity-about-title>About this activity</h2>
+    <div class="activity-about-copy" data-activity-about><p>Loading…</p></div>
+
+    <section class="activity-schedule-section">
+      <span class="activity-section-label">WHEN</span>
+      <h2>Schedule &amp; hours</h2>
+      <div class="activity-schedule-card" data-activity-schedule>Loading…</div>
+    </section>
+
+    <section class="activity-venue-card" data-activity-venue>
+      <h2>Venue</h2><p>Loading…</p>
+    </section>
+  </div>
+  <aside class="activity-detail-map-column">
+    <div id="activityDetailMap" class="activity-detail-map" aria-label="Activity location map"></div>
+  </aside>
+</section>
 </main><div id="site-footer"></div>
 </body>
 </html>
