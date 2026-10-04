@@ -17,6 +17,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){
 }
 $action=(string)($body['action']??'');
 if($action==='setup'){
+ if($wpdb->last_error)bh_json(['success'=>false,'error'=>'Database error before admin setup.','detail'=>(string)$wpdb->last_error],500);
  if((int)$wpdb->get_var("SELECT COUNT(*) FROM bh_users WHERE role='admin'")>0)bh_json(['success'=>false,'error'=>'Admin setup has already been completed.'],409);
  $email=strtolower(trim((string)($body['email']??'')));$password=(string)($body['password']??'');$name=trim((string)($body['name']??''))?:'Bubba Hub Admin';
  if(!filter_var($email,FILTER_VALIDATE_EMAIL))bh_json(['success'=>false,'error'=>'Please enter a valid admin email address.'],422);
