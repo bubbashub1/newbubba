@@ -10,6 +10,8 @@ $category=trim((string)($_GET['category']??''));
 $day=strtolower(trim((string)($_GET['day']??'')));
 $price=trim((string)($_GET['price']??''));
 $booking=isset($_GET['booking_required'])?(int)$_GET['booking_required']:null;
+$termTime=isset($_GET['term_time_only'])?(int)$_GET['term_time_only']:null;
+$accessibility=trim((string)($_GET['accessibility']??''));
 $id=(int)($_GET['id']??0);
 $slug=trim((string)($_GET['slug']??''));
 $params=["published"];
@@ -35,6 +37,10 @@ if(isset($days[$day])){ $sql.=" AND EXISTS (SELECT 1 FROM ".bh_table('activity_s
 if(isset($_GET['age_min']) && $_GET['age_min']!==''){ $sql.=' AND (a.age_max_months IS NULL OR a.age_max_months >= %d)'; $params[]=(int)$_GET['age_min']; }
 if(isset($_GET['age_max']) && $_GET['age_max']!==''){ $sql.=' AND (a.age_min_months IS NULL OR a.age_min_months <= %d)'; $params[]=(int)$_GET['age_max']; }
 if($booking!==null){ $sql.=" AND a.booking_required=%d"; $params[]=$booking?1:0; }
+if($termTime!==null){ $sql.=" AND a.term_time_only=%d"; $params[]=$termTime?1:0; }
+if($accessibility!==''){
+ foreach(array_filter(array_map('trim',explode(',',$accessibility))) as $accessValue){ $sql.=" AND EXISTS (SELECT 1 FROM ".bh_table('activity_accessibility')." aa WHERE aa.activity_id=a.id AND aa.accessibility_key=%s)"; $params[]=$accessValue; }
+}
 
 switch($price){
     case 'free': $sql.=" AND (a.price IS NULL OR a.price=0)"; break;
