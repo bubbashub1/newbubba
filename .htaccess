@@ -21,6 +21,14 @@ RewriteRule ^account/?$ /account.html [R=301,L,NE]
 
 RewriteRule ^activity/([^/]+)/?$ activity.html?slug=$1 [L,QSA]
 
+# Organiser profile URLs
+# /organiser/business-name -> /organiser.html?slug=business-name
+RewriteRule ^organiser/([^/]+)/?$ organiser.html?slug=$1 [L,QSA]
+
+# Venue profile URLs
+# /venue/123 -> /venue.html?id=123
+RewriteRule ^venue/([0-9]+)/?$ venue.html?id=$1 [L,QSA]
+
 # --------------------------------------------------
 # Clean .html URLs
 # --------------------------------------------------
