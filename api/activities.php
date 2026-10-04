@@ -21,6 +21,7 @@ LEFT JOIN ".bh_table('activity_venues')." av ON av.activity_id=a.id AND av.is_pr
 LEFT JOIN ".bh_table('venues')." v ON v.id=av.venue_id
 WHERE a.status=%s
 
+";
 if($id>0){ $sql.=" AND a.id=%d"; $params[]=$id; }
 if($slug!==''){ $sql.=" AND a.slug=%s"; $params[]=$slug; }
 if($keyword!==''){ $like='%'.$wpdb->esc_like($keyword).'%'; $sql.=" AND (a.title LIKE %s OR a.description LIKE %s OR l.business_name LIKE %s)"; array_push($params,$like,$like,$like); }
