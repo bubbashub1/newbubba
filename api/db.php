@@ -32,6 +32,38 @@ function bh_table(string $name): string {
     return 'bh_' . $name;
 }
 
+
+function bh_is_admin(): bool {
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        if (!headers_sent()) {
+            session_set_cookie_params([
+                'lifetime'=>0,
+                'path'=>'/',
+                'secure'=>!empty($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off',
+                'httponly'=>true,
+                'samesite'=>'Lax'
+            ]);
+            session_start();
+        }
+    }
+    $id = (int)($_SESSION['bh_admin_user_id'] ?? 0);
+    if ($id < 1) return false;
+
+    global $wpdb;
+    $role = $wpdb->get_var($wpdb->prepare(
+        "SELECT role FROM bh_users WHERE id=%d AND status='active' LIMIT 1",
+        $id
+    ));
+
+    return $role === 'admin';
+}
+
+function bh_require_admin(): void {
+    if (!bh_is_admin()) {
+        bh_json(['success'=>false,'error'=>'admin_required'],403);
+    }
+}
+
 function bh_json(mixed $data, int $status = 200): never {
     http_response_code($status);
     header('Content-Type: application/json; charset=utf-8');
