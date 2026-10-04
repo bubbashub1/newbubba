@@ -56,7 +56,7 @@ if($action==='notifications'){
  bh_json(['success'=>true,'items'=>$rows,'csrf'=>$_SESSION['bh_csrf']]);
 }
 if($action==='pro'){
- $product=preg_match('/^leader|planner$/',(string)($body['product']??''))?(string)$body['product']:'planner';
+ $product=preg_match('/^(leader|planner)$/',(string)($body['product']??''))?(string)$body['product']:'planner';
  $row=$wpdb->get_row($wpdb->prepare("SELECT * FROM bh_app_pro WHERE user_id=%d AND product=%s",$userId,$product),ARRAY_A);
  bh_json(['success'=>true,'product'=>$product,'pro'=>$row?:['active'=>0],'csrf'=>$_SESSION['bh_csrf']]);
 }
