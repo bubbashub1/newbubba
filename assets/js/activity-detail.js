@@ -75,14 +75,16 @@ function initMap(a){
   venue.innerHTML='<h2>Venue</h2>'+venueLink+(address?'<p>Venue: '+esc(address)+'</p>':'');
 }
 if(organiser){
+  const activityTitle=a.title||"Activity";
   const organiserName=a.organiser||"Organiser";
   const organiserSlug=String(organiserName).trim().toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
   const organiserHref=organiserSlug?"/organiser/"+encodeURIComponent(organiserSlug):"";
-  organiser.innerHTML='<h2>Organiser</h2>'+(
-    organiserHref
-      ? '<a class="activity-organiser-name" href="'+organiserHref+'">'+esc(organiserName)+'</a>'
-      : '<strong>'+esc(organiserName)+'</strong>'
-  );
+  organiser.innerHTML='<h2>'+esc(activityTitle)+'</h2>'+
+    '<h5>'+(
+      organiserHref
+        ? '<a class="activity-organiser-name" href="'+organiserHref+'">'+esc(organiserName)+'</a>'
+        : '<span class="activity-organiser-name">'+esc(organiserName)+'</span>'
+    )+'</h5>';
 }
   if(contact){
     if(a.booking_url){contact.href=a.booking_url;contact.target="_blank";contact.rel="noopener";contact.textContent="Book Now";}
