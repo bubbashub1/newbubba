@@ -210,6 +210,12 @@
     if (params.get("bookingRequired") === "1") {
       apiParams.set("booking_required", "1");
     }
+    if (params.get("termTime") === "1") {
+      apiParams.set("term_time_only", "1");
+    }
+    if (params.get("accessibility")) {
+      apiParams.set("accessibility", params.get("accessibility"));
+    }
 
     try {
       activitiesMount.innerHTML = `
