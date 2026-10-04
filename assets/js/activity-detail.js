@@ -105,47 +105,28 @@ const compare=document.getElementById("compareActivity");
 let currentActivity=null;
 let csrfToken="";
 
-async function loadSavedState(activityId){
+function savedStorageKey(id){return "bh_saved_activity_"+id;}
+function loadSavedState(activityId){
   if(!save)return;
-  try{
-    const r=await fetch("/api/favourites.php",{headers:{Accept:"application/json"}});
-    const d=await r.json();
-    if(r.ok&&d.success){
-      csrfToken=d.csrf||"";
-      const isSaved=Array.isArray(d.activities)&&d.activities.some(x=>Number(x.activity_id)===Number(activityId));
-      save.classList.toggle("is-saved",isSaved);
-      save.textContent=isSaved?"♥ Saved":"♡ Save";
-    }else if(r.status===401){
-      save.classList.remove("is-saved");
-      save.textContent="♡ Save";
-    }
-  }catch(e){}
+  const saved=localStorage.getItem(savedStorageKey(Number(activityId)))!==null;
+  save.classList.toggle("is-saved",saved);
+  save.textContent=saved?"♥ Saved":"♡ Save";
 }
-
-async function toggleSaved(){
+function toggleSaved(){
   if(!currentActivity||!save)return;
-  save.disabled=true;
-  try{
-    if(!csrfToken){
-      const r=await fetch("/api/favourites.php",{headers:{Accept:"application/json"}});
-      const d=await r.json();
-      if(r.status===401){alert("Please sign in to save activities.");return;}
-      if(!r.ok||!d.success)throw Error(d.message||d.error||"Could not load saved activities.");
-      csrfToken=d.csrf||"";
-    }
-    const next=!save.classList.contains("is-saved");
-    const r=await fetch("/api/favourites.php",{
-      method:"POST",
-      headers:{"Content-Type":"application/json","Accept":"application/json"},
-      body:JSON.stringify({csrf:csrfToken,activity_id:Number(currentActivity.id),saved:next})
-    });
-    const d=await r.json();
-    if(r.status===401){alert("Please sign in to save activities.");return;}
-    if(!r.ok||!d.success)throw Error(d.message||d.error||"Could not update saved activity.");
-    save.classList.toggle("is-saved",next);
-    save.textContent=next?"♥ Saved":"♡ Save";
-  }catch(e){alert(e.message||"Could not update saved activity.");}
-  finally{save.disabled=false;}
+  const id=Number(currentActivity.id),key=savedStorageKey(id);
+  const next=localStorage.getItem(key)===null;
+  if(next){
+    localStorage.setItem(key,JSON.stringify({
+      id,
+      title:currentActivity.title||"Activity",
+      slug:currentActivity.slug||slug,
+      venue:currentActivity.venue_name||"",
+      town:currentActivity.town||""
+    }));
+  }else localStorage.removeItem(key);
+  save.classList.toggle("is-saved",next);
+  save.textContent=next?"♥ Saved":"♡ Save";
 }
 
 function activityStorageKey(type,id){return "bh_"+type+"_"+id;}
