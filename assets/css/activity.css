@@ -1,0 +1,107 @@
+/* ================================================================
+   ACTIVITY DETAIL — BUBBA HUB
+   ================================================================ */
+
+.activity-hero {
+  padding: 34px 0;
+  background: var(--bh-green-soft);
+}
+
+.activity-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+  gap: 34px;
+  align-items: center;
+}
+
+.activity-hero-copy > p:first-child {
+  margin-bottom: 18px;
+}
+
+.activity-hero-copy > p:first-child a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.activity-eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--bh-teal);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.activity-hero h1 {
+  margin-bottom: 12px;
+}
+
+.activity-hero-image {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--bh-white);
+  border: 1px solid var(--bh-border);
+  box-shadow: var(--bh-shadow);
+}
+
+.activity-hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.activity-detail-section {
+  padding-top: 44px;
+}
+
+.activity-layout {
+  align-items: start;
+}
+
+.activity-layout > div > .card,
+.activity-layout > aside > .card {
+  box-shadow: 0 5px 18px rgba(18, 63, 49, .06);
+}
+
+.activity-layout .card h2 {
+  margin-bottom: 16px;
+}
+
+.activity-layout aside {
+  position: sticky;
+  top: 20px;
+}
+
+@media (max-width: 850px) {
+  .activity-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .activity-hero-image {
+    height: 210px;
+  }
+
+  .activity-layout aside {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .activity-hero {
+    padding: 26px 0 30px;
+  }
+
+  .activity-hero-image {
+    height: 190px;
+    border-radius: 12px;
+  }
+
+  .activity-detail-section {
+    padding-top: 30px;
+  }
+}
