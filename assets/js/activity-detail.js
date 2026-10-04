@@ -1,11 +1,14 @@
 (() => {
 "use strict";
-const slug=new URLSearchParams(location.search).get("slug")||"";
+const pathParts=location.pathname.split("/").filter(Boolean);
+const querySlug=new URLSearchParams(location.search).get("slug")||"";
+const slug=querySlug||((pathParts[0]==="activity"&&pathParts[1])?decodeURIComponent(pathParts[1]):"");
 const title=document.querySelector("[data-activity-title]");
 const heroImage=document.querySelector("[data-activity-image]");
 const desc=document.querySelector("[data-activity-description]");
 const about=document.querySelector("[data-activity-about]");
 const venue=document.querySelector("[data-activity-venue]");
+const organiser=document.querySelector("[data-activity-organiser]");
 const facts=document.querySelector("[data-activity-facts]");
 const categories=document.querySelector("[data-activity-categories]");
 const schedule=document.querySelector("[data-activity-schedule]");
@@ -61,7 +64,23 @@ function initMap(a){
       ["Session length",a.session_length_minutes?a.session_length_minutes+" mins":"See schedule"]
     ].map(x=>'<div class="activity-detail-fact"><small>'+esc(x[0])+'</small><strong>'+esc(x[1])+'</strong></div>').join("");
   }
-  if(venue)venue.innerHTML='<h2>Venue</h2><strong>'+esc(a.venue_name||"Venue to be confirmed")+'</strong><p>'+esc([a.address,a.town,a.region,a.postcode].filter(Boolean).join(", "))+'</p>';
+  if(venue){
+  const venueName=a.venue_name||"Venue to be confirmed";
+  const venueHref=a.venue_id?"/venue/"+encodeURIComponent(a.venue_id):"";
+  const venueLink=venueHref?'<a class="activity-venue-name" href="'+venueHref+'">'+esc(venueName)+'</a>':'<strong>'+esc(venueName)+'</strong>';
+  const address=[a.address_line_1,a.address_line_2,a.town,a.region,a.postcode].filter(Boolean).join(", ");
+  venue.innerHTML='<h2>Venue</h2>'+venueLink+(address?'<p>Venue: '+esc(address)+'</p>':'');
+}
+if(organiser){
+  const organiserName=a.organiser||"Organiser";
+  const organiserSlug=String(organiserName).trim().toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+  const organiserHref=organiserSlug?"/organiser/"+encodeURIComponent(organiserSlug):"";
+  organiser.innerHTML='<h2>Organiser</h2>'+(
+    organiserHref
+      ? '<a class="activity-organiser-name" href="'+organiserHref+'">'+esc(organiserName)+'</a>'
+      : '<strong>'+esc(organiserName)+'</strong>'
+  );
+}
   if(contact){
     if(a.booking_url){contact.href=a.booking_url;contact.target="_blank";contact.rel="noopener";contact.textContent="Book Now";}
     else if(a.website){contact.href=a.website;contact.target="_blank";contact.rel="noopener";contact.textContent="Visit website";}
