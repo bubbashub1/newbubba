@@ -7,6 +7,24 @@ global $wpdb;
 $wpdb->query("CREATE TABLE IF NOT EXISTS bh_leader_users (user_id BIGINT UNSIGNED NOT NULL,leader_id BIGINT UNSIGNED NOT NULL,created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id),UNIQUE KEY leader_user(leader_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 $action=(string)($_GET['action']??'');
 $userId=(int)($_SESSION['bh_user_id']??0);
+$csrf=function(): string { if(!isset($_SESSION['bh_csrf'])) $_SESSION['bh_csrf']=bin2hex(random_bytes(24)); return (string)$_SESSION['bh_csrf']; };
+
+if($action==='profile'){
+ if($userId<1) bh_json(['success'=>false,'error'=>'login_required'],401);
+ $leader=$wpdb->get_row($wpdb->prepare("SELECT l.id,l.business_name FROM bh_leader_users lu INNER JOIN bh_leaders l ON l.id=lu.leader_id WHERE lu.user_id=%d LIMIT 1",$userId),ARRAY_A);
+ if(!$leader) bh_json(['success'=>false,'error'=>'No linked class leader account.'],403);
+ if($_SERVER['REQUEST_METHOD']==='POST'){
+  $body=json_decode((string)file_get_contents('php://input'),true); if(!is_array($body)) $body=[];
+  if(!hash_equals($csrf(),(string)($body['csrf']??''))) bh_json(['success'=>false,'error'=>'Security check failed.'],403);
+  $name=trim((string)($body['business_name']??''));
+  if($name==='') bh_json(['success'=>false,'error'=>'Business name is required.'],422);
+  if(mb_strlen($name)>190) bh_json(['success'=>false,'error'=>'Business name is too long.'],422);
+  if($wpdb->update('bh_leaders',['business_name'=>$name],['id'=>(int)$leader['id']],['%s'],['%d'])===false) bh_json(['success'=>false,'error'=>'Could not update leader profile.'],500);
+  $leader['business_name']=$name;
+ }
+ bh_json(['success'=>true,'leader'=>$leader,'csrf'=>$csrf()]);
+}
+
 
 if($action==='mine'){
  if($userId<1) bh_json(['success'=>false,'error'=>'login_required'],401);
