@@ -554,3 +554,11 @@ p { margin: 0 0 14px; }
 /* Live activity map */
 .activity-map{width:100%;min-height:560px;height:100%;border-radius:12px;overflow:hidden;background:var(--surface)}
 @media(max-width:850px){.activity-map{min-height:420px}.directory-layout{grid-template-columns:1fr}.directory-map{border-left:0;border-top:1px solid var(--border)}}
+
+
+/* Simple navigation behaviour */
+@media (max-width: 850px) {
+  .main-navigation.is-open { display:flex; }
+  .main-navigation .nav-search-wrap { width:100%; }
+  .main-navigation .header-search { position:static; width:100%; margin-top:8px; }
+}
