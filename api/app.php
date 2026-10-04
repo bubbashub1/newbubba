@@ -59,8 +59,9 @@ if($action==='planner'){
  if($op==='delete'){ $wpdb->delete('bh_app_planner',['id'=>(int)$body['id'],'user_id'=>$userId],['%d','%d']); bh_json(['success'=>true]); }
  $data=['user_id'=>$userId,'activity_id'=>($body['activity_id']??null)?(int)$body['activity_id']:null,'title'=>trim((string)($body['title']??'')),'start_at'=>($body['start_at']??'')?:null,'end_at'=>($body['end_at']??'')?:null,'notes'=>trim((string)($body['notes']??'')),'status'=>'planned'];
  if($data['title']==='') bh_json(['success'=>false,'error'=>'A plan title is required.'],422);
+ if($data['activity_id']!==null){$activityExists=$wpdb->get_var($wpdb->prepare("SELECT id FROM bh_activities WHERE id=%d AND status='published'",$data['activity_id']));if(!$activityExists) bh_json(['success'=>false,'error'=>'The selected activity could not be found.'],422);}
  $id=(int)($body['id']??0);
- if($id){$wpdb->update('bh_app_planner',$data,['id'=>$id,'user_id'=>$userId]);}else{$wpdb->insert('bh_app_planner',$data,['%d','%d','%s','%s','%s','%s','%s']);$id=(int)$wpdb->insert_id;}
+ if($id){$wpdb->update('bh_app_planner',$data,['id'=>$id,'user_id'=>$userId]);}else{$wpdb->insert('bh_app_planner',$data,['%d','%d','%s','%s','%s','%s','%s']);$id=(int)$wpdb->insert_id;} if($wpdb->last_error) bh_json(['success'=>false,'error'=>'Could not save planner item.'],500);
  bh_json(['success'=>true,'id'=>$id]);
 }
 if($action==='notifications'){
