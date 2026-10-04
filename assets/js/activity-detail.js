@@ -78,7 +78,7 @@ if(organiser){
   const activityTitle=a.title||"Activity";
   const organiserName=a.organiser||"Organiser";
   const organiserSlug=String(organiserName).trim().toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
-  const organiserHref=organiserSlug?"/organiser/"+encodeURIComponent(organiserSlug):"";
+  const organiserHref=organiserSlug?"/organiser.html?slug="+encodeURIComponent(organiserSlug):"";
   organiser.innerHTML='<h2>'+esc(activityTitle)+'</h2>'+
     '<h5>'+(
       organiserHref
