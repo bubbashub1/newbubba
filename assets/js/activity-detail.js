@@ -122,7 +122,7 @@
         }
       }
     })
-    .catch((error) => {
+\n  saveButton?.addEventListener("click", async () => { if (!csrf || !window.__activityId) { window.location.href = "/account.html"; return; } const saved = saveButton.dataset.saved === "1"; try { const response = await fetch("/api/favourites.php", { method:"POST", headers:{"Content-Type":"application/json",Accept:"application/json"}, body:JSON.stringify({activity_id:window.__activityId,saved:!saved,csrf}) }); const data=await response.json(); if(!response.ok||!data.success) throw new Error(data.message||data.error||"Could not save"); saveButton.dataset.saved=data.saved?"1":"0"; saveButton.textContent=data.saved?"♥ Saved":"♡ Save activity"; } catch(error){ saveButton.textContent=error.message||"Could not save"; } });\n    .catch((error) => {
       console.error("Activity load error:", error);
       if (title) title.textContent = "Activity not found";
       if (desc) desc.textContent = error.message || "We couldn't load this activity.";
