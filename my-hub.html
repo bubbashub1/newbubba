@@ -8,37 +8,123 @@
 <link rel="stylesheet" href="assets/css/hub.css">
 <script src="assets/js/app.js" defer></script>
 <script src="assets/js/hub.js" defer></script>
+<script src="assets/js/my-hub.js" defer></script>
 </head>
 <body data-page="my-hub">
 <div id="site-header"></div>
-<main class="hub-page">
-<div class="container">
-<section class="hub-page-hero">
-<div class="hub-page-hero-copy">
-<span class="eyebrow">Your family space</span>
-<h1>My Hub</h1>
-<p>Everything your family has saved, planned and booked, all in one place.</p>
-</div>
-<aside class="hub-upcoming" id="hubUpcoming" aria-labelledby="hubUpcomingTitle">
-<div class="hub-upcoming-head"><div><span class="eyebrow">From your planner</span><h2 id="hubUpcomingTitle">Upcoming events</h2></div><a href="/hub/planner.html">View planner →</a></div>
-<div class="hub-upcoming-list" id="hubUpcomingList"><div class="hub-upcoming-empty">Loading your planner…</div></div>
-</aside>
-</section>
-<a class="hub-back" href="/hub/help.html">Need help using My Hub? →</a>
-<section class="hub-link-grid">
-<a href="/hub/family.html" class="hub-link-card"><span>👨‍👩‍👧</span><h2>My Family</h2><p>Manage children and family profiles.</p></a>
-<a href="/hub/bump.html" class="hub-link-card"><span>🤰</span><h2>My Bump</h2><p>Keep pregnancy details and your due date.</p></a>
-<a href="/hub/saved.html" class="hub-link-card"><span>♡</span><h2>Saved Activities</h2><p>Find the activities you have saved.</p></a>
-<a href="/hub/planner.html" class="hub-link-card"><span>📅</span><h2>Planner</h2><p>Organise activities for your family.</p></a>
-<a href="/hub/visited.html" class="hub-link-card"><span>✓</span><h2>Visited Groups</h2><p>Keep track of places and groups you have visited.</p></a>
-<a href="/hub/recently-viewed.html" class="hub-link-card"><span>↺</span><h2>Recently Viewed</h2><p>Quickly return to activities you have explored.</p></a>
-<a href="/hub/bookings.html" class="hub-link-card"><span>🎟</span><h2>Bookings</h2><p>See your upcoming and past bookings.</p></a>
-<a href="/hub/preferences.html" class="hub-link-card"><span>⚙</span><h2>Preferences</h2><p>Personalise the activities shown to your family.</p></a>
-<a href="/hub/consent.html" class="hub-link-card"><span>🔒</span><h2>Consent &amp; Permissions</h2><p>Manage information and permissions for bookings.</p></a>
-<a href="/hub/notifications.html" class="hub-link-card"><span>🔔</span><h2>Notifications</h2><p>Manage future reminders and updates.</p></a>
-</section>
-</div>
+
+<main class="hub-page my-hub-dashboard">
+  <div class="container">
+
+    <section class="my-hub-hero">
+      <div class="my-hub-hero-copy">
+        <span class="eyebrow">Your family space</span>
+        <h1>My Hub</h1>
+        <p>Everything your family has saved, planned, visited and booked — all in one place.</p>
+        <div class="my-hub-hero-actions">
+          <a class="button" href="/directory.html">Find activities</a>
+          <a class="button button-soft" href="/hub/planner.html">Open planner</a>
+        </div>
+      </div>
+      <div class="my-hub-hero-note">
+        <span class="my-hub-note-icon">♡</span>
+        <div>
+          <strong>Make it yours</strong>
+          <p>Save favourites, build your planner and keep your family details ready for bookings.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="hub-welcome">
+      <div>
+        <span class="eyebrow">Welcome back</span>
+        <h2>Ready to plan some family time?</h2>
+        <p>Your My Hub grows with you as you save and plan activities.</p>
+      </div>
+      <a class="hub-account-link" href="/account.html">Manage my account →</a>
+    </section>
+
+    <section class="hub-stats" aria-label="My Hub summary">
+      <a class="hub-stat" href="/hub/saved.html"><span>♡</span><strong id="hubSavedCount">0</strong><small>Saved activities</small></a>
+      <a class="hub-stat" href="/hub/planner.html"><span>📅</span><strong id="hubPlannerCount">0</strong><small>Planned activities</small></a>
+      <a class="hub-stat" href="/hub/bookings.html"><span>🎟</span><strong id="hubBookingCount">0</strong><small>Bookings</small></a>
+      <a class="hub-stat" href="/hub/family.html"><span>👨‍👩‍👧</span><strong id="hubFamilyCount">0</strong><small>Family profiles</small></a>
+    </section>
+
+    <section class="hub-personal-cta">
+      <div>
+        <span class="eyebrow">My family</span>
+        <h2 id="hubFamilyTitle">Set up your family</h2>
+        <p id="hubFamilyText">Add your children or bump details to make My Hub more useful.</p>
+      </div>
+      <div class="hub-personal-actions">
+        <a class="button button-primary" href="/hub/family.html">My Family</a>
+        <a class="button button-soft" href="/hub/bump.html">My Bump</a>
+      </div>
+    </section>
+
+    <section class="hub-suggestions">
+      <div class="hub-suggestions-head">
+        <div>
+          <span class="eyebrow">Quick start</span>
+          <h2>What would you like to do?</h2>
+          <p>Jump straight to the part of My Hub you need.</p>
+        </div>
+      </div>
+      <div class="hub-suggestion-grid">
+        <a class="hub-suggestion-card" href="/directory.html"><span>Explore</span><strong>Find an activity</strong><small>Search groups, classes and family activities near you.</small><b>Find activities →</b></a>
+        <a class="hub-suggestion-card" href="/hub/saved.html"><span>Favourites</span><strong>Saved activities</strong><small>See the activities you have bookmarked.</small><b>View saved →</b></a>
+        <a class="hub-suggestion-card" href="/hub/planner.html"><span>Plan</span><strong>Planner</strong><small>Organise activities into your family calendar.</small><b>Open planner →</b></a>
+      </div>
+    </section>
+
+    <section class="hub-dashboard-grid">
+      <article class="hub-panel hub-brief">
+        <div class="hub-panel-head">
+          <div><span class="eyebrow">Your family dashboard</span><h2>Bubba Brief</h2></div>
+          <a class="hub-account-link" href="/hub/preferences.html">Preferences →</a>
+        </div>
+        <div class="hub-brief-grid" id="hubBrief">
+          <div class="hub-empty"><strong>Your personalised brief will appear here</strong><p>Add family details and preferences to get more useful suggestions.</p><a class="button button-secondary" href="/hub/family.html">Set up My Family</a></div>
+        </div>
+      </article>
+
+      <article class="hub-panel">
+        <div class="hub-panel-head"><div><span class="eyebrow">Your history</span><h2>Visited Groups</h2></div><a class="hub-account-link" href="/hub/visited.html">View all →</a></div>
+        <div class="hub-list" id="hubVisited"><div class="hub-empty"><strong>No visited groups yet</strong><p>Mark an activity as visited when you go.</p></div></div>
+      </article>
+
+      <article class="hub-panel">
+        <div class="hub-panel-head"><div><span class="eyebrow">Pick up where you left off</span><h2>Recently Viewed</h2></div><a class="hub-account-link" href="/hub/recently-viewed.html">View all →</a></div>
+        <div class="hub-list" id="hubRecent"><div class="hub-empty"><strong>Nothing here yet</strong><p>Activities you view will appear here.</p></div></div>
+      </article>
+
+      <article class="hub-panel">
+        <div class="hub-panel-head"><div><span class="eyebrow">Your favourites</span><h2>Saved Activities</h2></div><a class="hub-account-link" href="/hub/saved.html">View all →</a></div>
+        <div class="hub-list" id="hubSaved"><div class="hub-empty"><strong>No saved activities yet</strong><p>Tap the save button on an activity to keep it here.</p><a class="button button-secondary" href="/directory.html">Find activities</a></div></div>
+      </article>
+
+      <article class="hub-panel">
+        <div class="hub-panel-head"><div><span class="eyebrow">Your plans</span><h2>Upcoming Bookings</h2></div><a class="hub-account-link" href="/hub/bookings.html">View all →</a></div>
+        <div class="hub-list" id="hubBookings"><div class="hub-empty"><strong>No bookings yet</strong><p>Your upcoming bookings will appear here.</p></div></div>
+      </article>
+    </section>
+
+    <section class="hub-panel hub-tools">
+      <div class="hub-panel-head"><div><span class="eyebrow">More My Hub</span><h2>Family tools</h2></div></div>
+      <div class="hub-tools-grid">
+        <a class="feature-card" href="/hub/family.html"><span class="feature-icon">👨‍👩‍👧</span><h3>My Family</h3><p>Manage children and family profiles.</p></a>
+        <a class="feature-card" href="/hub/bump.html"><span class="feature-icon">🤰</span><h3>My Bump</h3><p>Keep pregnancy details and your due date.</p></a>
+        <a class="feature-card" href="/hub/preferences.html"><span class="feature-icon">⚙</span><h3>Preferences</h3><p>Personalise the activities shown to your family.</p></a>
+        <a class="feature-card" href="/hub/consent.html"><span class="feature-icon">🔒</span><h3>Consent &amp; Permissions</h3><p>Manage information and permissions for bookings.</p></a>
+        <a class="feature-card" href="/hub/notifications.html"><span class="feature-icon">🔔</span><h3>Notifications</h3><p>Manage reminders and updates.</p></a>
+        <a class="feature-card" href="/hub/help.html"><span class="feature-icon">❓</span><h3>My Hub help</h3><p>Get help using your family space.</p></a>
+      </div>
+    </section>
+
+  </div>
 </main>
+
 <div id="site-footer"></div>
 </body>
 </html>
