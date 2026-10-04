@@ -30,6 +30,14 @@ RewriteRule ^organiser/([^/]+)/?$ organiser.html?slug=$1 [L,QSA]
 RewriteRule ^venue/([0-9]+)/?$ venue.html?id=$1 [L,QSA]
 
 # --------------------------------------------------
+# My Hub clean URL
+# /my-hub -> /my-hub.html
+# Keep this explicit so the dashboard is never caught by WordPress.
+# --------------------------------------------------
+
+RewriteRule ^my-hub/?$ my-hub.html [L]
+
+# --------------------------------------------------
 # Clean .html URLs
 # --------------------------------------------------
 
