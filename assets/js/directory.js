@@ -181,10 +181,34 @@
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
 
       const marker = L.marker([lat, lng]).addTo(directoryMap);
+      const popupImage = String(activity.image_url || "").trim() || "/wp-content/uploads/logo/placeholder.jpeg";
+      const popupPrice = activity.price == null || Number(activity.price) === 0
+        ? "Free"
+        : "£" + Number(activity.price).toFixed(2);
+      const popupAge = formatAge(activity.age_min_months, activity.age_max_months);
+      const popupBadges = [
+        '<span class="directory-map-popup-badge">' + escapeHtml(activity.organiser || "Family activity") + '</span>',
+        activity.featured ? '<span class="directory-map-popup-badge directory-map-popup-featured">Featured</span>' : "",
+        activity.booking_required ? '<span class="directory-map-popup-badge directory-map-popup-booking">Booking required</span>' : ""
+      ].join("");
+
       marker.bindPopup(
-        "<strong>" + escapeHtml(activity.title || "Activity") + "</strong>" +
-        "<br>" + escapeHtml([activity.venue_name, activity.town].filter(Boolean).join(" · ")) +
-        "<br><a href='activity.html?slug=" + encodeURIComponent(activity.slug || "") + "'>View activity</a>"
+        '<article class="directory-map-popup-card">' +
+          '<a class="directory-map-popup-image" href="activity.html?slug=' + encodeURIComponent(activity.slug || "") + '">' +
+            '<img src="' + escapeHtml(popupImage) + '" alt="" onerror="this.onerror=null;this.src=\'/wp-content/uploads/logo/placeholder.jpeg\';">' +
+            '<div class="directory-map-popup-badges">' + popupBadges + '</div>' +
+          '</a>' +
+          '<div class="directory-map-popup-body">' +
+            '<h3><a href="activity.html?slug=' + encodeURIComponent(activity.slug || "") + '">' + escapeHtml(activity.title || "Activity") + '</a></h3>' +
+            '<div class="directory-map-popup-facts">' +
+              '<span><strong>Town</strong>' + escapeHtml(activity.town || "") + '</span>' +
+              '<span><strong>Price</strong>' + escapeHtml(popupPrice) + '</span>' +
+            '</div>' +
+            (popupAge ? '<div class="directory-map-popup-age"><strong>Age</strong>' + escapeHtml(popupAge) + '</div>' : '') +
+            '<a class="button directory-map-popup-button" href="activity.html?slug=' + encodeURIComponent(activity.slug || "") + '">View activity</a>' +
+          '</div>' +
+        '</article>',
+        { className: "directory-map-popup", maxWidth: 300, minWidth: 260 }
       );
       directoryMarkers.set(String(activity.id), marker);
       bounds.push([lat, lng]);
