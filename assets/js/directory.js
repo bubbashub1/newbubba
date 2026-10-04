@@ -157,6 +157,52 @@
     return years(min) + "–" + years(max);
   };
 
+  let directoryMap = null;
+  const directoryMarkers = new Map();
+
+  const initDirectoryMap = (activities) => {
+    const mapEl = document.getElementById("directoryActivityMap");
+    if (!mapEl || typeof L === "undefined") return;
+
+    if (!directoryMap) {
+      directoryMap = L.map(mapEl).setView([50.47, -3.53], 9);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors"
+      }).addTo(directoryMap);
+    }
+
+    directoryMarkers.forEach((marker) => marker.remove());
+    directoryMarkers.clear();
+
+    const bounds = [];
+    activities.forEach((activity) => {
+      const lat = Number(activity.latitude);
+      const lng = Number(activity.longitude);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
+      const marker = L.marker([lat, lng]).addTo(directoryMap);
+      marker.bindPopup(
+        "<strong>" + escapeHtml(activity.title || "Activity") + "</strong>" +
+        "<br>" + escapeHtml([activity.venue_name, activity.town].filter(Boolean).join(" · ")) +
+        "<br><a href='activity.html?slug=" + encodeURIComponent(activity.slug || "") + "'>View activity</a>"
+      );
+      directoryMarkers.set(String(activity.id), marker);
+      bounds.push([lat, lng]);
+    });
+
+    if (bounds.length) {
+      directoryMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
+    }
+  };
+
+  const focusDirectoryActivity = (activityId) => {
+    const marker = directoryMarkers.get(String(activityId));
+    if (!marker || !directoryMap) return;
+    directoryMap.setView(marker.getLatLng(), Math.max(directoryMap.getZoom(), 13), { animate: true });
+    marker.openPopup();
+    document.getElementById("directoryActivityMap")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
   const renderActivities = (activities) => {
     if (!activitiesMount) return;
 
@@ -187,8 +233,8 @@
       ].join("");
 
       return `
-        <article class="directory-activity-card">
-          <a class="directory-activity-card-image" href="${href}" aria-label="View ${escapeHtml(activity.title || "activity")}">
+        <article class="directory-activity-card" data-activity-id="${escapeHtml(activity.id)}">
+          <a class="directory-activity-card-image directory-map-focus-link" href="${href}" aria-label="View ${escapeHtml(activity.title || "activity")}">
             <img src="${escapeHtml(imageUrl)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='/wp-content/uploads/logo/placeholder.jpeg';">
             ${badges ? `<div class="directory-activity-badges">${badges}</div>` : ""}
           </a>
@@ -210,6 +256,13 @@
           </div>
         </article>`;
     }).join("");
+
+    activitiesMount.querySelectorAll("[data-activity-id]").forEach((card) => {
+      card.addEventListener("click", (event) => {
+        if (event.target.closest("a[href]")) return;
+        focusDirectoryActivity(card.dataset.activityId);
+      });
+    });
   };
 
   const loadActivities = async () => {
@@ -255,7 +308,9 @@
       const data = await response.json();
       if (!data.success) throw new Error(data.error || "Activity API failed");
 
-      renderActivities(Array.isArray(data.activities) ? data.activities : []);
+      const activities = Array.isArray(data.activities) ? data.activities : [];
+      renderActivities(activities);
+      initDirectoryMap(activities);
 
       const heading = document.querySelector(".directory-results-heading p");
       if (heading) {
