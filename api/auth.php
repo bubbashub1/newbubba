@@ -51,6 +51,16 @@ if($action==='login'){
  session_regenerate_id(true); $_SESSION['bh_user_id']=(int)$u['id']; $_SESSION['bh_csrf']=bin2hex(random_bytes(24));
  bh_json(['success'=>true,'authenticated'=>true,'user'=>['id'=>(int)$u['id'],'email'=>$u['email'],'name'=>$u['name']??'','role'=>$u['role']??'family'],'csrf'=>$_SESSION['bh_csrf']]);
 }
+if($action==='change_password'){
+ $id=(int)($_SESSION['bh_user_id']??0); if($id<1) bh_json(['success'=>false,'error'=>'login_required'],401);
+ if(!hash_equals((string)$_SESSION['bh_csrf'],(string)($body['csrf']??''))) bh_json(['success'=>false,'error'=>'Security check failed.'],403);
+ $current=(string)($body['current_password']??''); $new=(string)($body['new_password']??'');
+ $hash=$wpdb->get_var($wpdb->prepare('SELECT password_hash FROM bh_users WHERE id=%d',$id));
+ if(!$hash || !password_verify($current,$hash)) bh_json(['success'=>false,'error'=>'Current password is incorrect.'],422);
+ if(strlen($new)<8) bh_json(['success'=>false,'error'=>'New password must be at least 8 characters.'],422);
+ $wpdb->update('bh_users',['password_hash'=>password_hash($new,PASSWORD_DEFAULT)],['id'=>$id],['%s'],['%d']);
+ bh_json(['success'=>true,'message'=>'Password updated.']);
+}
 if($action==='logout'){
  unset($_SESSION['bh_user_id']); $_SESSION['bh_csrf']=bin2hex(random_bytes(24)); bh_json(['success'=>true,'authenticated'=>false,'csrf'=>$_SESSION['bh_csrf']]);
 }
