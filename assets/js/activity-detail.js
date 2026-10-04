@@ -147,7 +147,7 @@ function toggleLocal(type,button,onText,offText){
   if(!currentActivity||!button)return;
   const id=Number(currentActivity.id), key=activityStorageKey(type,id);
   const next=localStorage.getItem(key)!=="1";
-  if(next){localStorage.setItem(key,"1");}else{localStorage.removeItem(key);}
+  if(next){localStorage.setItem(key,"1");if(type==="visited"){localStorage.setItem("bh_visited_item_"+id,JSON.stringify({id,title:currentActivity.title||"Activity",slug:currentActivity.slug||slug,venue:currentActivity.venue_name||"",town:currentActivity.town||""}));}if(type==="planner"){localStorage.setItem("bh_planner_item_"+id,JSON.stringify({id,title:currentActivity.title||"Activity",slug:currentActivity.slug||slug,venue:currentActivity.venue_name||"",town:currentActivity.town||"",schedules:Array.isArray(currentActivity.schedules)?currentActivity.schedules:[]}));}}else{localStorage.removeItem(key);localStorage.removeItem("bh_"+type+"_item_"+id);if(type==="planner")localStorage.removeItem("bh_planner_item_"+id);}
   button.classList.toggle("is-saved",next);
   button.textContent=next?onText:offText;
 }
