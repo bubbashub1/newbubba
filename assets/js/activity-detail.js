@@ -155,6 +155,10 @@ function loadLocalActionState(a){
   if(planner)planner.textContent=planned?"✓ In Planner":"＋ Add to Planner";
   visited?.classList.toggle("is-saved",wasVisited);
   if(visited)visited.textContent=wasVisited?"✓ Visited":"○ Visited";
+  let compared=false;
+  try{compared=JSON.parse(localStorage.getItem("bh_compare")||"[]").some(x=>Number(x.id)===id);}catch(e){}
+  compare?.classList.toggle("is-saved",compared);
+  if(compare)compare.textContent=compared?"✓ Compared":"Compare";
 }
 function toggleLocal(type,button,onText,offText){
   if(!currentActivity||!button)return;
