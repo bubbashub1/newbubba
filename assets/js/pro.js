@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("[data-pro-status]").forEach(async el=>{const product=el.dataset.proStatus;const r=await fetch("/api/app.php?action=pro&product="+encodeURIComponent(product));const d=await r.json();el.textContent=d.success&&d.pro&&Number(d.pro.active)===1?"Active":"Available with Pro";});});
