@@ -20,13 +20,16 @@ if($action==='setup'){
  if(!filter_var($email,FILTER_VALIDATE_EMAIL))bh_json(['success'=>false,'error'=>'Please enter a valid admin email address.'],422);
  if(strlen($password)<12)bh_json(['success'=>false,'error'=>'Admin password must be at least 12 characters.'],422);
  $existing=$wpdb->get_row($wpdb->prepare("SELECT id,email,password_hash,name,role,status FROM bh_users WHERE email=%s LIMIT 1",$email),ARRAY_A);
+ if(!hash_equals((string)$_SESSION['bh_admin_csrf'],(string)($body['csrf']??'')))bh_json(['success'=>false,'error'=>'Security check failed. Please refresh the page and try again.'],403);
+ $newHash=password_hash($password,PASSWORD_DEFAULT);
  if($existing){
    if($existing['status']!=='active')bh_json(['success'=>false,'error'=>'This Bubba Hub account is not active.'],403);
-   if(!password_verify($password,(string)$existing['password_hash']))bh_json(['success'=>false,'error'=>'The password for this existing Bubba Hub account is incorrect.'],401);
-   if(!$wpdb->update('bh_users',['role'=>'admin','name'=>$name?:($existing['name']??'')],['id'=>(int)$existing['id']],['%s','%s'],['%d']))bh_json(['success'=>false,'error'=>'Could not enable admin access for this account.'],500);
+   $ok=$wpdb->update('bh_users',['password_hash'=>$newHash,'role'=>'admin','name'=>$name?:($existing['name']??'')],['id'=>(int)$existing['id']],['%s','%s','%s'],['%d']);
+   if($ok===false)bh_json(['success'=>false,'error'=>'Could not enable admin access for this account.','detail'=>$wpdb->last_error],500);
    $adminId=(int)$existing['id'];
  } else {
-   if(!$wpdb->insert('bh_users',['email'=>$email,'password_hash'=>password_hash($password,PASSWORD_DEFAULT),'name'=>$name,'role'=>'admin','status'=>'active'],['%s','%s','%s','%s','%s']))bh_json(['success'=>false,'error'=>'Could not create the admin account.'],500);
+   $ok=$wpdb->insert('bh_users',['email'=>$email,'password_hash'=>$newHash,'name'=>$name,'role'=>'admin','status'=>'active'],['%s','%s','%s','%s','%s']);
+   if($ok===false)bh_json(['success'=>false,'error'=>'Could not create the admin account.','detail'=>$wpdb->last_error],500);
    $adminId=(int)$wpdb->insert_id;
  }
  session_regenerate_id(true);$_SESSION['bh_admin_user_id']=$adminId;$_SESSION['bh_admin_csrf']=bin2hex(random_bytes(24));
