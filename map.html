@@ -5,8 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Activity map | Bubba Hub</title>
 <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="assets/js/app.js" defer></script>
 <script src="assets/js/directory.js" defer></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+<script src="assets/js/map.js" defer></script>
 </head>
 <body data-page="map">
 <div id="site-header"></div>
@@ -123,19 +126,8 @@
       </div>
 
       <div class="directory-layout">
-        <div class="directory-results">
-          <div class="empty-state">
-            <h3>Activities will appear here</h3>
-            <p>The directory results will be connected next.</p>
-          </div>
-        </div>
-
-        <div class="directory-map">
-          <div class="empty-state">
-            <h3>Map</h3>
-            <p>The interactive map will be connected next.</p>
-          </div>
-        </div>
+        <div class="directory-results"><div id="mapActivityList" class="directory-activity-grid" aria-live="polite"><div class="empty-state"><h3>Loading activities…</h3><p>Finding activities on the map.</p></div></div></div>
+<div class="directory-map"><div id="activityMap" class="activity-map" aria-label="Map of family activities"></div></div>
       </div>
     </div>
   </section>
