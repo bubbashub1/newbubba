@@ -712,8 +712,10 @@ p { margin: 0 0 14px; }
    ================================================================ */
 
 .directory-activity-grid {
-  grid-template-columns: 1fr;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 20px;
+  align-items: start;
 }
 
 .directory-activity-card {
