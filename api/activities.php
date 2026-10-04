@@ -24,7 +24,7 @@ if($mine){
  if($leaderId<1) bh_json(['success'=>true,'count'=>0,'activities'=>[],'leader'=>null]);
 }
 
-$sql="SELECT DISTINCT a.id,a.title,a.slug,a.description,a.status,a.booking_required,a.booking_url,a.price,a.price_type,a.currency,a.age_min_months,a.age_max_months,a.session_length_minutes,a.term_time_only,(SELECT ai.image_url FROM bh_activity_images ai WHERE ai.activity_id=a.id ORDER BY ai.is_primary DESC,ai.id ASC LIMIT 1) AS image_url,a.contact_email,a.contact_phone,a.website,a.featured,l.id AS leader_id,l.business_name AS organiser,v.id AS venue_id,v.name AS venue_name,v.town,v.region,v.postcode,v.latitude,v.longitude
+$sql="SELECT DISTINCT a.id,a.title,a.slug,a.description,a.status,a.booking_required,a.booking_url,a.price,a.price_type,a.currency,a.age_min_months,a.age_max_months,a.session_length_minutes,a.term_time_only,(SELECT ai.image_url FROM bh_activity_images ai WHERE ai.activity_id=a.id ORDER BY ai.is_primary DESC,ai.id ASC LIMIT 1) AS image_url,a.contact_email,a.contact_phone,a.website,a.featured,l.id AS leader_id,l.business_name AS organiser,v.id AS venue_id,v.name AS venue_name,v.address_line_1,v.address_line_2,v.town,v.region,v.postcode,v.latitude,v.longitude
 FROM ".bh_table('activities')." a
 LEFT JOIN ".bh_table('leaders')." l ON l.id=a.leader_id
 LEFT JOIN ".bh_table('activity_venues')." av ON av.activity_id=a.id AND av.is_primary=1
