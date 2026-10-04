@@ -49,6 +49,8 @@ if($action==='notification_preferences' && $_SERVER['REQUEST_METHOD']==='GET'){
  $p=$wpdb->get_row($wpdb->prepare('SELECT email_updates,planner_reminders,saved_activity_updates FROM bh_app_profiles WHERE user_id=%d',$userId),ARRAY_A) ?: ['email_updates'=>1,'planner_reminders'=>1,'saved_activity_updates'=>1];
  bh_json(['success'=>true,'preferences'=>$p,'csrf'=>$_SESSION['bh_csrf']]);
 }
+if($action==='notification_preferences' && $_SERVER['REQUEST_METHOD']==='GET'){ $p=$wpdb->get_row($wpdb->prepare('SELECT email_updates,planner_reminders,saved_activity_updates FROM bh_app_profiles WHERE user_id=%d',$userId),ARRAY_A) ?: ['email_updates'=>1,'planner_reminders'=>1,'saved_activity_updates'=>1]; bh_json(['success'=>true,'preferences'=>$p,'csrf'=>$_SESSION['bh_csrf']]); }
+if($action==='notification_preferences' && $_SERVER['REQUEST_METHOD']==='POST'){ if(!hash_equals((string)$_SESSION['bh_csrf'],(string)($body['csrf']??''))) bh_json(['success'=>false,'error'=>'Security check failed.'],403); $wpdb->query($wpdb->prepare('INSERT INTO bh_app_profiles(user_id,email_updates,planner_reminders,saved_activity_updates) VALUES(%d,%d,%d,%d) ON DUPLICATE KEY UPDATE email_updates=VALUES(email_updates),planner_reminders=VALUES(planner_reminders),saved_activity_updates=VALUES(saved_activity_updates)',$userId,!empty($body['email_updates'])?1:0,!empty($body['planner_reminders'])?1:0,!empty($body['saved_activity_updates'])?1:0)); bh_json(['success'=>true]); }
 if($action==='planner'){
  if($_SERVER['REQUEST_METHOD']==='GET'){
   $rows=$wpdb->get_results($wpdb->prepare("SELECT * FROM bh_app_planner WHERE user_id=%d ORDER BY start_at IS NULL,start_at,id DESC",$userId),ARRAY_A);
