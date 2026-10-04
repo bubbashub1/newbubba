@@ -176,7 +176,7 @@
 
       return `
         <article class="directory-activity-card">
-          <div class="directory-activity-card-image" aria-hidden="true">👶</div>
+          <div class="directory-activity-card-image">${activity.image_url ? '<img src="' + escapeHtml(activity.image_url) + '" alt="">' : "👶"}</div>
           <div class="directory-activity-card-body">
             <span class="directory-activity-tag">${escapeHtml(activity.organiser || "Family activity")}</span>
             <h3>${escapeHtml(activity.title || "Activity")}</h3>
@@ -198,7 +198,7 @@
     const params = new URLSearchParams(window.location.search);
     const apiParams = new URLSearchParams();
 
-    ["keyword", "region", "town", "category", "day"].forEach((key) => {
+    ["keyword", "region", "town", "category", "day", "age_min", "age_max"].forEach((key) => {
       const value = params.get(key);
       if (value) apiParams.set(key, value);
     });
