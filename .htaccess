@@ -1,4 +1,7 @@
 RewriteEngine On
 
+# Account dashboard: /account/ -> /account.html
+RewriteRule ^account/?$ account.html [L,R=301]
+
 # Clean activity URLs: /activity/slug -> /activity.html?slug=slug
 RewriteRule ^activity/([^/]+)/?$ activity.html?slug=$1 [L,QSA]
