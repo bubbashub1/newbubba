@@ -12,14 +12,14 @@ $price=trim((string)($_GET['price']??''));
 $booking=isset($_GET['booking_required'])?(int)$_GET['booking_required']:null;
 $id=(int)($_GET['id']??0);
 $slug=trim((string)($_GET['slug']??''));
-$params=[];
+$params=["published"];
 
 $sql="SELECT DISTINCT a.id,a.title,a.slug,a.description,a.status,a.booking_required,a.booking_url,a.price,a.price_type,a.currency,a.age_min_months,a.age_max_months,a.session_length_minutes,a.term_time_only,a.contact_email,a.contact_phone,a.website,a.featured,l.id AS leader_id,l.business_name AS organiser,v.id AS venue_id,v.name AS venue_name,v.town,v.region,v.postcode,v.latitude,v.longitude
 FROM ".bh_table('activities')." a
 LEFT JOIN ".bh_table('leaders')." l ON l.id=a.leader_id
 LEFT JOIN ".bh_table('activity_venues')." av ON av.activity_id=a.id AND av.is_primary=1
 LEFT JOIN ".bh_table('venues')." v ON v.id=av.venue_id
-WHERE 1=1";
+WHERE a.status=%s
 
 if($id>0){ $sql.=" AND a.id=%d"; $params[]=$id; }
 if($slug!==''){ $sql.=" AND a.slug=%s"; $params[]=$slug; }
