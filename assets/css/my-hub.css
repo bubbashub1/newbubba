@@ -64,3 +64,7 @@
 .hub-welcome,.hub-suggestions{border-radius:0;box-shadow:none}
 .hub-suggestion-card{border-radius:14px;transition:.18s ease}
 @media(max-width:600px){.my-hub-hero{padding:26px 20px}.my-hub-page .container{padding-left:10px;padding-right:10px}}
+
+
+/* Ensure the My Hub page title is always visible */
+.my-hub-hero .my-hub-title{display:block!important;visibility:visible!important;opacity:1!important;margin:0 0 8px!important;color:var(--green-dark)!important;font-size:clamp(34px,4vw,52px)!important;line-height:1.02!important;font-weight:700!important;position:relative;z-index:2}
