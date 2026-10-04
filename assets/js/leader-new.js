@@ -5,7 +5,7 @@ const message=document.getElementById("activityFormMessage"), leaderSelect=docum
 let csrf="";
 const load=async()=>{
  const auth=await (await fetch("../api/auth.php",{headers:{Accept:"application/json"}})).json();
- if(!auth.authenticated){message.textContent="Please sign in to add an activity.";message.className="form-message error";if(submit)submit.disabled=true;return;}
+ if(!auth.authenticated&&!window.BH_BUILD_MODE){message.textContent="Please sign in to add an activity.";message.className="form-message error";if(submit)submit.disabled=true;return;}
  csrf=auth.csrf||"";
  const [leaderResponse,categoryResponse]=await Promise.all([
   fetch("../api/leaders.php?action=mine",{headers:{Accept:"application/json"}}),
@@ -24,7 +24,7 @@ const load=async()=>{
  if(!(categoryData.categories||[]).length)categorySelect.innerHTML='<option value="">No categories found</option>';
 };
 form.addEventListener("submit",async e=>{
- e.preventDefault();if(!csrf){message.textContent="Please sign in with a linked class leader account.";message.className="form-message error";return;}
+ e.preventDefault();if(!csrf){message.textContent="Build mode is active, but a linked leader account is still required to save an activity.";message.className="form-message error";return;}
  message.textContent="Saving activity…";message.className="form-message";
  const fd=new FormData(form);fd.append("csrf",csrf);
  try{const response=await fetch("../api/activity-save.php",{method:"POST",body:fd,headers:{Accept:"application/json"}}),data=await response.json();if(!response.ok||!data.success)throw Error(data.error||"The activity could not be saved.");message.textContent=data.message;message.className="form-message success";location.href=data.redirect;}catch(error){message.textContent=error.message;message.className="form-message error";}
