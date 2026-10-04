@@ -73,7 +73,7 @@ try {
                 ['%s','%s','%s'],
                 ['%d']
             );
-            if($ok===false)bh_json(['success'=>false,'error'=>'Could not enable admin access for the existing account.'],500);
+            if($ok===false)bh_json(['success'=>false,'error'=>'Could not enable admin access for the existing account.','database_error'=>(string)$wpdb->last_error],500);
             $adminId=(int)$existing['id'];
         }else{
             $ok=$wpdb->insert(
@@ -81,7 +81,7 @@ try {
                 ['email'=>$email,'password_hash'=>$newHash,'name'=>$name,'role'=>'admin','status'=>'active'],
                 ['%s','%s','%s','%s','%s']
             );
-            if($ok===false)bh_json(['success'=>false,'error'=>'Could not create the admin account.'],500);
+            if($ok===false)bh_json(['success'=>false,'error'=>'Could not create the admin account.','database_error'=>(string)$wpdb->last_error],500);
             $adminId=(int)$wpdb->insert_id;
         }
 
