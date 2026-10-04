@@ -277,3 +277,14 @@
     font-size:12px;
   }
 }
+
+
+/* Global My Hub banner */
+.my-hub-page .my-hub-hero{
+  background:linear-gradient(135deg,#d8e6db 0%,#9fb7a5 48%,#3c8e96 100%);
+  border:0;
+  color:#144400;
+  box-shadow:0 14px 34px rgba(20,68,0,.10);
+}
+.my-hub-page .my-hub-hero h1{color:#144400}
+.my-hub-page .my-hub-hero p{color:#243027}
