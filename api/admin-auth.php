@@ -3,7 +3,9 @@ declare(strict_types=1);
 require_once __DIR__ . '/db.php';
 if(session_status()!==PHP_SESSION_ACTIVE){session_set_cookie_params(['lifetime'=>0,'path'=>'/','secure'=>!empty($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off','httponly'=>true,'samesite'=>'Lax']);session_start();}
 global $wpdb;
-$wpdb->query("CREATE TABLE IF NOT EXISTS bh_users (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,email VARCHAR(190) NOT NULL,password_hash VARCHAR(255) NOT NULL,name VARCHAR(190) NULL,role VARCHAR(30) NOT NULL DEFAULT 'family',status VARCHAR(30) NOT NULL DEFAULT 'active',created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,PRIMARY KEY(id),UNIQUE KEY email(email)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+if(!isset($wpdb)||!is_object($wpdb)){bh_json(['success'=>false,'error'=>'Database connection unavailable.'],500);}
+$tableOk=$wpdb->query("CREATE TABLE IF NOT EXISTS bh_users (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,email VARCHAR(190) NOT NULL,password_hash VARCHAR(255) NOT NULL,name VARCHAR(190) NULL,role VARCHAR(30) NOT NULL DEFAULT 'family',status VARCHAR(30) NOT NULL DEFAULT 'active',created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,PRIMARY KEY(id),UNIQUE KEY email(email)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+if($tableOk===false)bh_json(['success'=>false,'error'=>'Could not initialise the admin user table.','detail'=>(string)$wpdb->last_error],500);
 if(!isset($_SESSION['bh_admin_csrf'])) $_SESSION['bh_admin_csrf']=bin2hex(random_bytes(24));
 $body=json_decode((string)file_get_contents('php://input'),true);if(!is_array($body))$body=[];
 if($_SERVER['REQUEST_METHOD']==='GET'){
