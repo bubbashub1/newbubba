@@ -240,7 +240,7 @@
           </a>
 
           <div class="directory-activity-card-body">
-            <h3><a href="${href}">${escapeHtml(activity.title || "Activity")}</a></h3>
+            <h3><a class="directory-map-focus-link" href="${href}">${escapeHtml(activity.title || "Activity")}</a></h3>
 
             <div class="directory-activity-location">
               ${town ? `<span><strong>Town</strong> ${town}</span>` : ""}
@@ -259,7 +259,13 @@
 
     activitiesMount.querySelectorAll("[data-activity-id]").forEach((card) => {
       card.addEventListener("click", (event) => {
-        if (event.target.closest("a[href]")) return;
+        const focusLink = event.target.closest(".directory-map-focus-link");
+        if (focusLink) {
+          event.preventDefault();
+          focusDirectoryActivity(card.dataset.activityId);
+          return;
+        }
+        if (event.target.closest(".directory-view-activity")) return;
         focusDirectoryActivity(card.dataset.activityId);
       });
     });
