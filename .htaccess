@@ -7,13 +7,6 @@
 RewriteEngine On
 
 # --------------------------------------------------
-# Admin login
-# /admin/ -> /admin/login.html
-# --------------------------------------------------
-
-RewriteRule ^admin/?$ /admin/login.html [R=302,L,NE]
-
-# --------------------------------------------------
 # Account dashboard
 # /account/ -> /account.html
 # Keep account.html as the dashboard URL.
