@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/db.php';
+if(session_status()!==PHP_SESSION_ACTIVE) session_start();
 global $wpdb;
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -23,6 +24,12 @@ function make_slug(string $title): string {
     return $slug !== '' ? $slug : 'activity';
 }
 
+$userId=(int)($_SESSION['bh_user_id']??0);
+if($userId<1) bh_json(['success'=>false,'error'=>'login_required','message'=>'Please sign in before adding an activity.'],401);
+if(!isset($_SESSION['bh_csrf'])) $_SESSION['bh_csrf']=bin2hex(random_bytes(24));
+if(!hash_equals((string)$_SESSION['bh_csrf'],(string)($_POST['csrf']??''))) bh_json(['success'=>false,'error'=>'Security check failed.'],403);
+$userRole=(string)($wpdb->get_var($wpdb->prepare("SELECT role FROM bh_users WHERE id=%d AND status='active'",$userId))??'');
+if(!in_array($userRole,['leader','admin'],true)) bh_json(['success'=>false,'error'=>'A linked class leader account is required.'],403);
 $title=post_string('title');
 $description=post_string('description');
 $leaderId=post_int_or_null('leader_id');
@@ -47,6 +54,11 @@ if($title==='') bh_json(['success'=>false,'error'=>'Please enter an activity nam
 if($categoryId===null) bh_json(['success'=>false,'error'=>'Please select a category.'],422);
 if($venueName==='' || $town==='') bh_json(['success'=>false,'error'=>'Please enter the venue name and town.'],422);
 
+if($leaderId===null && $userRole!=='admin') bh_json(['success'=>false,'error'=>'Your account must be linked to a class leader before publishing an activity.'],403);
+if($leaderId!==null){
+    $linkedLeader=(int)($wpdb->get_var($wpdb->prepare("SELECT leader_id FROM bh_leader_users WHERE user_id=%d",$userId))??0);
+    if($linkedLeader!==$leaderId) bh_json(['success'=>false,'error'=>'You can only publish activities for your linked class leader account.'],403);
+}
 if($leaderId !== null) {
     $leaderExists=$wpdb->get_var($wpdb->prepare(
         "SELECT id FROM ".bh_table('leaders')." WHERE id=%d",
