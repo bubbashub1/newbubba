@@ -166,7 +166,18 @@
       link.addEventListener("click", () => {
         menuButton.setAttribute("aria-expanded", "false");
         nav.classList.remove("is-open");
+        searchTrigger.setAttribute("aria-expanded", "false");
+        searchPanel.hidden = true;
+        searchPanel.classList.remove("is-open");
       });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!target.contains(event.target)) {
+        searchTrigger.setAttribute("aria-expanded", "false");
+        searchPanel.hidden = true;
+        searchPanel.classList.remove("is-open");
+      }
     });
 
     const logo = target.querySelector(".brand-logo");
