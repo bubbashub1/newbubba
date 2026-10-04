@@ -6,6 +6,7 @@ const slug=querySlug||((pathParts[0]==="activity"&&pathParts[1])?decodeURICompon
 const title=document.querySelector("[data-activity-title]");
 const heroImage=document.querySelector("[data-activity-image]");
 const desc=document.querySelector("[data-activity-description]");
+const heroOrganiser=document.querySelector("[data-activity-organiser]");
 const about=document.querySelector("[data-activity-about]");
 const venue=document.querySelector("[data-activity-venue]");
 const organiser=document.querySelector("[data-activity-organiser]");
@@ -45,6 +46,7 @@ function initMap(a){
   if(title)title.textContent=a.title||"Activity";
   if(heroImage){const image=String(a.image_url||"").trim()||"/wp-content/uploads/logo/placeholder.jpeg";heroImage.innerHTML='<img src="'+esc(image)+'" alt="" onerror="this.onerror=null;this.src=\'/wp-content/uploads/logo/placeholder.jpeg\';">';}
   if(desc)desc.textContent=a.description||"More information about this activity will appear here.";
+  if(heroOrganiser)heroOrganiser.textContent=a.organiser||"Organiser";
   if(about)about.innerHTML="<p>"+esc(a.description||"More information about this activity will appear here.")+"</p>";
   if(categories){
     const cats=Array.isArray(a.categories)?a.categories:[];
