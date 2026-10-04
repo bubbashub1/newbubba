@@ -101,9 +101,10 @@ try {
                 'name'=>$venueName,
                 'town'=>$town,
                 'region'=>$region,
-                'postcode'=>$postcode
+                'postcode'=>$postcode,
+                'status'=>'published'
             ],
-            ['%s','%s','%s','%s']
+            ['%s','%s','%s','%s','%s']
         );
         if(!$ok) throw new RuntimeException($wpdb->last_error ?: 'Could not save venue.');
         $venueId=(int)$wpdb->insert_id;
