@@ -194,18 +194,18 @@
 
       marker.bindPopup(
         '<article class="directory-map-popup-card">' +
-          '<a class="directory-map-popup-image" href="activity.html?slug=' + encodeURIComponent(activity.slug || "") + '">' +
+          '<a class="directory-map-popup-image" href="activity/' + encodeURIComponent(activity.slug || "") + '">' +
             '<img src="' + escapeHtml(popupImage) + '" alt="" onerror="this.onerror=null;this.src=\'/wp-content/uploads/logo/placeholder.jpeg\';">' +
             '<div class="directory-map-popup-badges">' + popupBadges + '</div>' +
           '</a>' +
           '<div class="directory-map-popup-body">' +
-            '<h3><a href="activity.html?slug=' + encodeURIComponent(activity.slug || "") + '">' + escapeHtml(activity.title || "Activity") + '</a></h3>' +
+            '<h3><a href="activity/' + encodeURIComponent(activity.slug || "") + '">' + escapeHtml(activity.title || "Activity") + '</a></h3>' +
             '<div class="directory-map-popup-facts">' +
               '<span><strong>Town</strong>' + escapeHtml(activity.town || "") + '</span>' +
               '<span><strong>Price</strong>' + escapeHtml(popupPrice) + '</span>' +
             '</div>' +
             (popupAge ? '<div class="directory-map-popup-age"><strong>Age</strong>' + escapeHtml(popupAge) + '</div>' : '') +
-            '<a class="button directory-map-popup-button" href="activity.html?slug=' + encodeURIComponent(activity.slug || "") + '">View activity</a>' +
+            '<a class="button directory-map-popup-button" href="activity/' + encodeURIComponent(activity.slug || "") + '">View activity</a>' +
           '</div>' +
         '</article>',
         { className: "directory-map-popup", maxWidth: 300, minWidth: 260 }
@@ -247,7 +247,7 @@
       const price = activity.price == null || Number(activity.price) === 0
         ? "Free"
         : `£${Number(activity.price).toFixed(2)}${activity.price_type ? " " + escapeHtml(activity.price_type) : ""}`;
-      const href = `activity.html?slug=${encodeURIComponent(activity.slug || "")}`;
+      const href = `activity/${encodeURIComponent(activity.slug || "")}`;
       const imageUrl = String(activity.image_url || "").trim() || "/wp-content/uploads/logo/placeholder.jpeg";
 
       const badges = [
