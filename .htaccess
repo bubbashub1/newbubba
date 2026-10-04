@@ -1,7 +1,60 @@
+# --------------------------------------------------
+# Bubba Hub - WordPress + Clean URLs
+# --------------------------------------------------
+
+<IfModule mod_rewrite.c>
+
 RewriteEngine On
 
-# Account dashboard: /account/ -> /account.html
-RewriteRule ^account/?$ account.html [L,R=301]
+# --------------------------------------------------
+# Account dashboard
+# /account/ -> /account.html
+# Keep account.html as the dashboard URL.
+# --------------------------------------------------
 
-# Clean activity URLs: /activity/slug -> /activity.html?slug=slug
+RewriteRule ^account/?$ /account.html [R=301,L,NE]
+
+# --------------------------------------------------
+# Clean activity URLs
+# /activity/test -> /activity.html?slug=test
+# --------------------------------------------------
+
 RewriteRule ^activity/([^/]+)/?$ activity.html?slug=$1 [L,QSA]
+
+# --------------------------------------------------
+# Clean .html URLs
+# --------------------------------------------------
+
+# Redirect .html URLs to clean URLs, except account.html
+# because account.html is the chosen dashboard URL.
+RewriteCond %{REQUEST_URI} !^/account\.html$ [NC]
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.html(?:[\s?]|$) [NC]
+RewriteRule ^(.+?)\.html$ /$1 [R=301,L,NE]
+
+# Serve clean URLs from matching .html files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
+
+# --------------------------------------------------
+# WordPress
+# --------------------------------------------------
+
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+RewriteBase /
+
+RewriteRule ^index\.php$ - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+
+</IfModule>
+
+# --------------------------------------------------
+# Homepage
+# --------------------------------------------------
+
+DirectoryIndex index.php index.html
