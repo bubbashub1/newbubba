@@ -3,8 +3,8 @@
 (() => {
   "use strict";
 
-  const API_URL = "api/activities.php";
-  const CATEGORY_API_URL = "api/categories.php";
+  const API_URL = "/api/activities.php";
+  const CATEGORY_API_URL = "/api/categories.php";
 
   const modal = document.getElementById("heroAdvancedModal");
   const openButton = document.getElementById("heroMoreFilters");
@@ -119,7 +119,12 @@
     if (!select) return;
 
     try {
-      const response = await fetch(CATEGORY_API_URL, { headers: { Accept: "application/json" } });
+      const response = await fetch(CATEGORY_API_URL, {
+        headers: { Accept: "application/json" },
+        credentials: "same-origin",
+        cache: "no-store"
+      });
+      if (!response.ok) throw new Error("Category API returned " + response.status);
       const data = await response.json();
       if (!data.success || !Array.isArray(data.categories)) return;
 
@@ -240,7 +245,9 @@
         </div>`;
 
       const response = await fetch(`${API_URL}?${apiParams.toString()}`, {
-        headers: { Accept: "application/json" }
+        headers: { Accept: "application/json" },
+        credentials: "same-origin",
+        cache: "no-store"
       });
 
       if (!response.ok) throw new Error("Activity API returned " + response.status);
