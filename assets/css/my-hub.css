@@ -55,12 +55,12 @@
 /* Activity-style My Hub refinements */
 .my-hub-page{padding-bottom:48px}
 .my-hub-page .container{width:100%;max-width:none;padding-left:15px;padding-right:15px}
-.my-hub-hero{margin:0 0 18px;border:0;border-radius:0;background:var(--green-dark);box-shadow:none;padding:34px 35px;color:#fff}
-.my-hub-hero .eyebrow{color:#d8e6db}
-.my-hub-hero h1{color:#fff}
-.my-hub-hero p{color:#eaf5ec}
-.my-hub-hero-actions .button{background:#fff;color:var(--green-dark);border-color:#fff}
-.my-hub-hero-actions .button-secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,.65)}
+.my-hub-hero{margin:0 0 18px;border:0;border-radius:0;background:var(--green-light);box-shadow:none;padding:34px 35px;color:var(--text)}
+.my-hub-hero .eyebrow{color:var(--green-dark)}
+.my-hub-hero h1{color:var(--green-dark)}
+.my-hub-hero p{color:var(--muted)}
+.my-hub-hero-actions .button{background:var(--green-dark);color:#fff;border-color:var(--green-dark)}
+.my-hub-hero-actions .button-secondary{background:#fff;color:var(--green-dark);border-color:var(--border)}
 .hub-welcome,.hub-suggestions{border-radius:0;box-shadow:none}
 .hub-suggestion-card{border-radius:14px;transition:.18s ease}
 @media(max-width:600px){.my-hub-hero{padding:26px 20px}.my-hub-page .container{padding-left:10px;padding-right:10px}}
