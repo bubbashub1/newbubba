@@ -201,9 +201,9 @@
 
           <div>
             <h2>Legal &amp; contact</h2>
-            <a href="#">Privacy</a>
-            <a href="#">Terms &amp; Conditions</a>
-            <a href="#">Contact</a>
+            <a href="/legal/privacy.html">Privacy</a>
+            <a href="/legal/terms.html">Terms &amp; Conditions</a>
+            <a href="/support/contact.html">Contact</a>
           </div>
 
         </div>
