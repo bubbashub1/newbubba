@@ -1,19 +1,126 @@
 <?php
 declare(strict_types=1);
+
 require_once __DIR__ . '/db.php';
+
 global $wpdb;
 
-$id=(int)($_GET['id']??0);
-$slug=trim((string)($_GET['slug']??''));
-if($id<=0 && $slug==='') bh_json(['success'=>false,'error'=>'Activity ID or slug is required.'],400);
+$id = (int)($_GET['id'] ?? 0);
+$slug = trim((string)($_GET['slug'] ?? ''));
 
-$sql="SELECT a.id,a.title,a.slug,a.description,a.status,a.booking_required,a.booking_url,a.price,a.price_type,a.currency,a.age_min_months,a.age_max_months,a.session_length_minutes,a.term_time_only,a.contact_email,a.contact_phone,a.website,a.featured,l.id AS leader_id,l.business_name AS organiser,v.id AS venue_id,v.name AS venue_name,v.town,v.region,v.postcode,v.latitude,v.longitude FROM ".bh_table('activities')." a LEFT JOIN ".bh_table('leaders')." l ON l.id=a.leader_id LEFT JOIN ".bh_table('activity_venues')." av ON av.activity_id=a.id AND av.is_primary=1 LEFT JOIN ".bh_table('venues')." v ON v.id=av.venue_id WHERE a.slug=%s LIMIT 1";
-$row=$wpdb->get_row($wpdb->prepare($sql,$slug!==''?$slug:$id),ARRAY_A);
-if($wpdb->last_error) bh_json(['success'=>false,'error'=>'Database query failed.'],500);
-if(!$row) bh_json(['success'=>false,'error'=>'Activity not found.'],404);
+if ($id <= 0 && $slug === '') {
+    bh_json([
+        'success' => false,
+        'error' => 'Activity ID or slug is required.'
+    ], 400);
+}
 
-$row['categories']=$wpdb->get_results($wpdb->prepare("SELECT c.id,c.name,c.slug FROM ".bh_table('activity_categories')." ac INNER JOIN ".bh_table('categories')." c ON c.id=ac.category_id WHERE ac.activity_id=%d ORDER BY c.name ASC",$id),ARRAY_A);
-$row['schedules']=$wpdb->get_results($wpdb->prepare("SELECT day_of_week,start_time,end_time,active FROM ".bh_table('activity_schedules')." WHERE activity_id=%d AND active=1 ORDER BY day_of_week,start_time",$id),ARRAY_A);
-$row['images']=$wpdb->get_results($wpdb->prepare("SELECT id,image_url,alt_text,is_primary FROM ".bh_table('activity_images')." WHERE activity_id=%d ORDER BY is_primary DESC,id ASC",$id),ARRAY_A);
+if ($id > 0) {
+    $where = 'a.id = %d';
+    $lookup = $id;
+} else {
+    $where = 'a.slug = %s';
+    $lookup = $slug;
+}
 
-bh_json(['success'=>true,'activity'=>$row]);
+$sql = "SELECT
+    a.id,
+    a.title,
+    a.slug,
+    a.description,
+    a.status,
+    a.booking_required,
+    a.booking_url,
+    a.price,
+    a.price_type,
+    a.currency,
+    a.age_min_months,
+    a.age_max_months,
+    a.session_length_minutes,
+    a.term_time_only,
+    a.contact_email,
+    a.contact_phone,
+    a.website,
+    a.featured,
+    l.id AS leader_id,
+    l.business_name AS organiser,
+    v.id AS venue_id,
+    v.name AS venue_name,
+    v.town,
+    v.region,
+    v.postcode,
+    v.latitude,
+    v.longitude
+FROM " . bh_table('activities') . " a
+LEFT JOIN " . bh_table('leaders') . " l
+    ON l.id = a.leader_id
+LEFT JOIN " . bh_table('activity_venues') . " av
+    ON av.activity_id = a.id
+    AND av.is_primary = 1
+LEFT JOIN " . bh_table('venues') . " v
+    ON v.id = av.venue_id
+WHERE {$where}
+AND a.status = 'published'
+LIMIT 1";
+
+$row = $wpdb->get_row(
+    $wpdb->prepare($sql, $lookup),
+    ARRAY_A
+);
+
+if ($wpdb->last_error) {
+    bh_json([
+        'success' => false,
+        'error' => 'Database query failed.'
+    ], 500);
+}
+
+if (!$row) {
+    bh_json([
+        'success' => false,
+        'error' => 'Activity not found.'
+    ], 404);
+}
+
+$activityId = (int)$row['id'];
+
+$row['categories'] = $wpdb->get_results(
+    $wpdb->prepare(
+        "SELECT c.id, c.name, c.slug
+         FROM " . bh_table('activity_categories') . " ac
+         INNER JOIN " . bh_table('categories') . " c
+             ON c.id = ac.category_id
+         WHERE ac.activity_id = %d
+         ORDER BY c.name ASC",
+        $activityId
+    ),
+    ARRAY_A
+) ?: [];
+
+$row['schedules'] = $wpdb->get_results(
+    $wpdb->prepare(
+        "SELECT day_of_week, start_time, end_time, active
+         FROM " . bh_table('activity_schedules') . "
+         WHERE activity_id = %d
+         AND active = 1
+         ORDER BY day_of_week, start_time",
+        $activityId
+    ),
+    ARRAY_A
+) ?: [];
+
+$row['images'] = $wpdb->get_results(
+    $wpdb->prepare(
+        "SELECT id, image_url, alt_text, is_primary
+         FROM " . bh_table('activity_images') . "
+         WHERE activity_id = %d
+         ORDER BY is_primary DESC, id ASC",
+        $activityId
+    ),
+    ARRAY_A
+) ?: [];
+
+bh_json([
+    'success' => true,
+    'activity' => $row
+]);
