@@ -9,33 +9,98 @@
 </head>
 <body data-page="home">
 <div id="site-header"></div>
+
 <main>
-<section class="hero"><div class="container">
-<h1>Find family activities near you</h1>
-<p>Discover pregnancy, baby, toddler and family activities across Devon & Cornwall.</p>
-<form class="search-panel" action="directory.html" method="get">
-<div class="form-grid">
-<div class="field"><label for="keyword">What are you looking for?</label><input id="keyword" name="keyword" type="search" placeholder="Activity, class or group"></div>
-<div class="field"><label for="region">Region</label><select id="region" name="region"><option value="">All regions</option><option>Torbay</option><option>Teignbridge</option><option>Exeter</option><option>South Devon</option><option>East Cornwall</option></select></div>
-<div class="field"><label for="town">Town</label><input id="town" name="town" type="text" placeholder="e.g. Torquay"></div>
-</div>
-<div class="form-actions"><button class="button" type="submit">Find activities</button></div>
-</form>
-</div></section>
-<section class="page-section"><div class="container">
-<h2>Explore Bubba Hub</h2>
-<div class="grid grid-3">
-<a class="card-link" href="directory.html"><article class="card"><h3>Find activities</h3><p>Search local classes, groups and family activities.</p></article></a>
-<a class="card-link" href="hub/my-hub.html"><article class="card"><h3>My Hub</h3><p>Keep your family information, saved activities and planner together.</p></article></a>
-<a class="card-link" href="leader.html"><article class="card"><h3>Class Leaders</h3><p>Manage your activities and connect with local families.</p></article></a>
-</div>
-</div></section>
-<section class="page-section"><div class="container"><div class="card">
-<h2>Your personalised planner</h2>
-<p>Sign in to see your personalised planner. Not a member? Sign up for free.</p>
-<a class="button" href="account.html">Sign in / Sign up</a>
-</div></div></section>
+  <section class="hero home-hero">
+    <div class="container home-hero-inner">
+      <div class="home-hero-copy">
+        <p class="eyebrow">Family life, made easier</p>
+        <h1>Find something great to do together.</h1>
+        <p class="hero-intro">Discover pregnancy, baby, toddler and family activities across Devon & Cornwall — all in one place.</p>
+      </div>
+
+      <form class="search-panel home-search" action="directory.html" method="get">
+        <div class="form-grid">
+          <div class="field">
+            <label for="keyword">What are you looking for?</label>
+            <input id="keyword" name="keyword" type="search" placeholder="Activity, class or group">
+          </div>
+          <div class="field">
+            <label for="region">Region</label>
+            <select id="region" name="region">
+              <option value="">All regions</option>
+              <option>Torbay</option>
+              <option>Teignbridge</option>
+              <option>Exeter</option>
+              <option>South Devon</option>
+              <option>East Cornwall</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="town">Town</label>
+            <input id="town" name="town" type="text" placeholder="e.g. Torquay">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="button" type="submit">Find activities</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="page-section home-intro-section">
+    <div class="container">
+      <div class="section-intro">
+        <p class="eyebrow">Explore Bubba Hub</p>
+        <h2>Everything you need for family life in one place.</h2>
+        <p>Find local activities, keep your family's favourites together and discover useful support along the way.</p>
+      </div>
+
+      <div class="home-link-grid">
+        <a class="home-link" href="directory.html">
+          <span class="home-link-number">01</span>
+          <div>
+            <h3>Find activities</h3>
+            <p>Search local classes, groups and family activities.</p>
+          </div>
+          <span class="home-link-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="home-link" href="hub/my-hub.html">
+          <span class="home-link-number">02</span>
+          <div>
+            <h3>My Hub</h3>
+            <p>Keep your family information, saved activities and planner together.</p>
+          </div>
+          <span class="home-link-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="home-link" href="leader.html">
+          <span class="home-link-number">03</span>
+          <div>
+            <h3>Class Leaders</h3>
+            <p>Share your activities and connect with local families.</p>
+          </div>
+          <span class="home-link-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-planner">
+    <div class="container">
+      <div class="planner-promo">
+        <div>
+          <p class="eyebrow">Plan your family time</p>
+          <h2>Save your favourites and build your own family planner.</h2>
+          <p>Sign in to keep track of activities you love and make planning family days out easier.</p>
+        </div>
+        <a class="button button-yellow" href="account.html">Sign in / Sign up</a>
+      </div>
+    </div>
+  </section>
 </main>
+
 <div id="site-footer"></div>
 </body>
 </html>
