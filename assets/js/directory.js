@@ -166,33 +166,47 @@
     }
 
     activitiesMount.innerHTML = activities.map((activity) => {
-      const venue = [activity.venue_name, activity.town].filter(Boolean).join(" · ");
+      const town = activity.town ? escapeHtml(activity.town) : "";
+      const region = activity.region ? escapeHtml(activity.region) : "";
       const age = formatAge(activity.age_min_months, activity.age_max_months);
-      const meta = [venue, age].filter(Boolean).join(" · ");
       const price = activity.price == null || Number(activity.price) === 0
         ? "Free"
         : `£${Number(activity.price).toFixed(2)}${activity.price_type ? " " + escapeHtml(activity.price_type) : ""}`;
       const href = `activity.html?slug=${encodeURIComponent(activity.slug || "")}`;
+      const imageUrl = String(activity.image_url || "").trim() || "/wp-content/uploads/logo/placeholder.jpeg";
+
+      const badges = [
+        activity.featured ? '<span class="directory-badge directory-badge-featured">Featured</span>' : "",
+        activity.booking_required ? '<span class="directory-badge directory-badge-booking">Booking required</span>' : ""
+      ].join("");
 
       return `
         <article class="directory-activity-card">
-          <div class="directory-activity-card-image">${activity.image_url ? '<img src="' + escapeHtml(activity.image_url) + '" alt="">' : "👶"}</div>
+          <a class="directory-activity-card-image" href="${href}" aria-label="View ${escapeHtml(activity.title || "activity")}">
+            <img src="${escapeHtml(imageUrl)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='/wp-content/uploads/logo/placeholder.jpeg';">
+            ${badges ? `<div class="directory-activity-badges">${badges}</div>` : ""}
+          </a>
+
           <div class="directory-activity-card-body">
-            <span class="directory-activity-tag">${escapeHtml(activity.organiser || "Family activity")}</span>
-            <h3>${escapeHtml(activity.title || "Activity")}</h3>
-            <p class="directory-activity-meta">${escapeHtml(meta || "Local family activity")}</p>
-            <p>${escapeHtml(activity.description || "Find out more about this family activity.")}</p>
-            <div class="directory-activity-card-details">
-              <strong>${price}</strong>
-              ${activity.booking_required ? '<span>Booking required</span>' : ""}
+            <h3><a href="${href}">${escapeHtml(activity.title || "Activity")}</a></h3>
+
+            <div class="directory-activity-location">
+              ${town ? `<span><strong>Town</strong> ${town}</span>` : ""}
+              ${region ? `<span><strong>Region</strong> ${region}</span>` : ""}
             </div>
-            <a class="button button-secondary" href="${href}">View activity</a>
+
+            <div class="directory-activity-facts">
+              ${age ? `<span><strong>Age Range</strong> ${escapeHtml(age)}</span>` : ""}
+              <span><strong>Price</strong> ${price}</span>
+            </div>
+
+            <a class="button directory-view-activity" href="${href}">View activity</a>
           </div>
         </article>`;
     }).join("");
   };
 
-  const loadActivities = async () => {
+  const loadActivities  const loadActivities = async () => {
     if (!activitiesMount) return;
 
     const params = new URLSearchParams(window.location.search);
