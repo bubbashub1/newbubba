@@ -14,7 +14,7 @@ $id=(int)($_GET['id']??0);
 $slug=trim((string)($_GET['slug']??''));
 $params=["published"];
 
-$sql="SELECT DISTINCT a.id,a.title,a.slug,a.description,a.status,a.booking_required,a.booking_url,a.price,a.price_type,a.currency,a.age_min_months,a.age_max_months,a.session_length_minutes,a.term_time_only,a.contact_email,a.contact_phone,a.website,a.featured,l.id AS leader_id,l.business_name AS organiser,v.id AS venue_id,v.name AS venue_name,v.town,v.region,v.postcode,v.latitude,v.longitude
+$sql="SELECT DISTINCT a.id,a.title,a.slug,a.description,a.status,a.booking_required,a.booking_url,a.price,a.price_type,a.currency,a.age_min_months,a.age_max_months,a.session_length_minutes,a.term_time_only,(SELECT ai.image_url FROM bh_activity_images ai WHERE ai.activity_id=a.id ORDER BY ai.is_primary DESC,ai.id ASC LIMIT 1) AS image_url,a.contact_email,a.contact_phone,a.website,a.featured,l.id AS leader_id,l.business_name AS organiser,v.id AS venue_id,v.name AS venue_name,v.town,v.region,v.postcode,v.latitude,v.longitude
 FROM ".bh_table('activities')." a
 LEFT JOIN ".bh_table('leaders')." l ON l.id=a.leader_id
 LEFT JOIN ".bh_table('activity_venues')." av ON av.activity_id=a.id AND av.is_primary=1
@@ -31,6 +31,8 @@ if($category!==''){ $sql.=" AND EXISTS (SELECT 1 FROM ".bh_table('activity_categ
 $days=['sunday'=>0,'monday'=>1,'tuesday'=>2,'wednesday'=>3,'thursday'=>4,'friday'=>5,'saturday'=>6];
 if(isset($days[$day])){ $sql.=" AND EXISTS (SELECT 1 FROM ".bh_table('activity_schedules')." s WHERE s.activity_id=a.id AND s.day_of_week=%d AND s.active=1)"; $params[]=$days[$day]; }
 
+if(isset($_GET['age_min']) && $_GET['age_min']!==''){ $sql.=' AND (a.age_max_months IS NULL OR a.age_max_months >= %d)'; $params[]=(int)$_GET['age_min']; }
+if(isset($_GET['age_max']) && $_GET['age_max']!==''){ $sql.=' AND (a.age_min_months IS NULL OR a.age_min_months <= %d)'; $params[]=(int)$_GET['age_max']; }
 if($booking!==null){ $sql.=" AND a.booking_required=%d"; $params[]=$booking?1:0; }
 
 switch($price){
