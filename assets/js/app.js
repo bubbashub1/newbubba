@@ -7,6 +7,34 @@
   // Set this to false before launch to restore protected-area login gateways.
   window.BH_BUILD_MODE = true;
 
+
+  // Global UK date helpers. Stored/API dates remain ISO (YYYY-MM-DD).
+  window.BH_DATE = {
+    toUK(value) {
+      const v = String(value || "").trim();
+      const m = v.match(/^(\\d{4})-(\\d{2})-(\\d{2})/);
+      return m ? `${m[3]}/${m[2]}/${m[1]}` : v;
+    },
+    toISO(value) {
+      const v = String(value || "").trim();
+      const m = v.match(/^(\\d{1,2})[\\/.-](\\d{1,2})[\\/.-](\\d{4})$/);
+      if (!m) return v;
+      const d=Number(m[1]), month=Number(m[2]), year=Number(m[3]);
+      const date=new Date(year,month-1,d);
+      return date.getFullYear()===year && date.getMonth()===month-1 && date.getDate()===d ? `${year}-${String(month).padStart(2,"0")}-${String(d).padStart(2,"0")}` : v;
+    },
+    todayISO() {
+      const d=new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    }
+  };
+  window.BH_applyUKDates = function(root=document) {
+    root.querySelectorAll("[data-uk-date]").forEach(el => {
+      const value=el.getAttribute("data-date") || el.textContent;
+      if(value) el.textContent=window.BH_DATE.toUK(value);
+    });
+  };
+
   const navigation = [
     ["directory", "Find activities", "directory.html"],
     ["my-hub", "My Hub", "my-hub.html"],
