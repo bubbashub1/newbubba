@@ -1,0 +1,34 @@
+/* =========================================================
+   Bubba Hub - Google Sign-In
+   Placeholder styling for the future Google button.
+   ========================================================= */
+
+.google-signin {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 11px 16px;
+  border: 1px solid var(--bh-border);
+  border-radius: var(--bh-radius);
+  background: #fff;
+  color: var(--bh-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.google-signin:hover,
+.google-signin:focus-visible {
+  border-color: var(--bh-green);
+  box-shadow: var(--bh-shadow);
+  transform: translateY(-1px);
+}
+
+.google-signin-icon {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
