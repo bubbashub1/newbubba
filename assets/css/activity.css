@@ -35,10 +35,12 @@
 .activity-venue-card h2{font-size:1.3rem}
 .activity-venue-card p{margin:5px 0 0;color:var(--bh-muted)}
 .activity-detail-map-column{min-width:0}
-.activity-detail-map{position:sticky;top:20px;width:100%;height:360px;overflow:hidden;border-radius:16px;background:var(--bh-green-pale);border:1px solid var(--bh-border)}
+.activity-detail-map{position:static;width:100%;height:360px;overflow:hidden;border-radius:16px;background:var(--bh-green-pale);border:1px solid var(--bh-border)}
 .activity-map-empty{display:grid;place-items:center;height:100%;padding:20px;color:var(--bh-muted);text-align:center}
 @media(max-width:1000px){.activity-detail-facts{grid-template-columns:repeat(3,1fr)}.activity-detail-actions{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:800px){.activity-detail-hero{padding:24px}.activity-detail-hero-inner,.activity-detail-main{grid-template-columns:1fr}.activity-detail-main{padding:30px 24px 50px}.activity-detail-map{position:static;height:320px}.activity-schedule-section{margin-top:45px}}
 @media(max-width:600px){.activity-detail-hero{padding:18px 14px 24px}.activity-detail-hero-inner{gap:22px}.activity-detail-hero-image{height:190px;border-radius:14px}.activity-detail-facts{grid-template-columns:repeat(2,1fr)}.activity-detail-actions{grid-template-columns:repeat(2,1fr)}.activity-action-book{grid-column:1/-1}.activity-detail-main{padding:26px 14px 40px}.activity-schedule-row{align-items:flex-start;flex-direction:column;gap:4px}}
 
 .activity-venue-name,.activity-organiser-name{display:inline-block;color:var(--bh-green-dark);font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}.activity-venue-name:hover,.activity-organiser-name:hover{color:var(--bh-teal)}.activity-organiser-card{margin-top:24px;padding:20px;border:1px solid var(--bh-border);border-radius:16px;background:var(--bh-green-pale)}.activity-organiser-card h2{font-size:1.3rem;margin-bottom:8px}.activity-organiser-card p{margin:0}.activity-venue-card p{margin:8px 0 0;color:var(--bh-muted)}
+
+.activity-detail-hero-content>p[data-activity-organiser]{margin:0 0 20px;color:rgba(255,255,255,.9);font-size:.95rem;font-weight:600}
