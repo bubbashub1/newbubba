@@ -6,7 +6,9 @@
 <title>Find activities | Bubba Hub</title>
 <link rel="stylesheet" href="assets/css/styles.css">
 <link rel="stylesheet" href="assets/css/directory-hero.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="assets/js/app.js" defer></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 <script src="assets/js/directory.js" defer></script>
 </head>
 <body data-page="directory">
@@ -118,11 +120,7 @@
         </div>
 
         <div class="directory-map">
-          <div class="empty-state">
-            <h3>Map</h3>
-            <p>Activities will appear here when the live map is connected.</p>
-            <a class="button" href="map.html">View activities on map</a>
-          </div>
+          <div id="directoryActivityMap" class="activity-map" aria-label="Map of family activities"></div>
         </div>
       </div>
     </div>
