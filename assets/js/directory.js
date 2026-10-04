@@ -206,7 +206,7 @@
     }).join("");
   };
 
-  const loadActivities  const loadActivities = async () => {
+  const loadActivities = async () => {
     if (!activitiesMount) return;
 
     const params = new URLSearchParams(window.location.search);
